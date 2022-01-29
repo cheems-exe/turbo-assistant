@@ -40,7 +40,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'todo' %}">
-            <i class="mdi mdi-tick menu-icon"></i>
+            <i class="mdi mdi-checkbox-marked-outline menu-icon"></i>
             <span class="menu-title">To Do</span>
           </a>
         </li>
@@ -58,30 +58,33 @@
             <span class="menu-title">Health</span>
           </a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="/complaintbox/">
-            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-            <span class="menu-title">nothing</span>
+          <a class="nav-link" href="{% url 'summarize_text' %}">
+            <i class="mdi mdi-book-open menu-icon"></i>
+            <span class="menu-title">Meeting Summary</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'relaxing_sounds' %}" target="_blank">
+            <i class="mdi mdi-volume-high menu-icon"></i>
+            <span class="menu-title">Background sounds</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'journal' %}">
-            <i class="mdi mdi-clipboard-outline menu-icon"></i>
+            <i class="mdi mdi-book menu-icon"></i>
             <span class="menu-title">Journal</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/onlinepolls/">
-            <i class="mdi mdi-chart-bar menu-icon"></i>
-            <span class="menu-title">Online Polls</span>
+          <a class="nav-link" href="{% url 'play_games' %}">
+            <i class="mdi mdi-google-controller menu-icon"></i>
+            <span class="menu-title">Games</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/help/">
-            <i class="mdi mdi-help-circle-outline menu-icon"></i>
-            <span class="menu-title">Help</span>
-          </a>
-        </li>
+
         <li class="nav-item sidebar-actions">
           <div class="nav-link">
             <div class="mt-4">
@@ -152,7 +155,7 @@
         </div>
         {% endif %}
         <div class="content-wrapper pb-0">
-          
+
 
 
 

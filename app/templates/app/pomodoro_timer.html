@@ -56,7 +56,7 @@
     height: 25rem;
     border-radius: 50%;
     background: var(--normal-ring);
-    box-shadow:-5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15);
+    box-shadow: -5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -122,7 +122,7 @@
         <span id="colon">:</span>
         <span id="seconds">{{ time }}</span>
       </div>
-      <div id="stsp">START</div>
+      <div id="stsp">START {{ what }}</div>
       <span id="setting"><i class="fas fa-cog"></i></span>
     </div>
     <form action="{% url 'pomodoro' %}" method="POST" id="submit_report">

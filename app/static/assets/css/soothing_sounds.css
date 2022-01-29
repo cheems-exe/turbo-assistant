@@ -5,6 +5,11 @@
   src: local('Montserrat-Regular'), url(font/montserrat.woff) format('woff');
 }
 
+.get_back_bitch {
+  text-decoration: none !important;
+  color: inherit;
+}
+
 #all-controls {
   display:none;
 }

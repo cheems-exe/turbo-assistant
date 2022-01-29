@@ -1,877 +1,848 @@
-{% extends "app/base.html" %}
-
-{% block head_title %}Journal {% endblock %}
-
-
-{% block extra_head %}
-<link rel="stylesheet" href="../../static/assets/css/soothing_sounds.css" />
-<link rel="stylesheet" href="../../static/assets/js/jquery.mobile.custom.structure.min.css" />
-<script src="../../static/assets/js/jquery-1.9.1.min.js"></script>
-<script src="../../static/assets/js/jquery.mobile.custom.min.js"></script>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-42700626-2']);
-  _gaq.push(['_trackPageview']);
-
-  (function () {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-<script type="text/javascript">
-
-  $(document).ready(function () {
-
-    var rainslider = $("#rain-slider");
-    var wavesslider = $("#waves-slider");
-    var thunderslider = $("#thunder-slider");
-    var fireslider = $("#fire-slider");
-    var birdsslider = $("#birds-slider");
-    var humansslider = $("#humans-slider");
-
-    var rainbackground = $("#rain-slider-background");
-    var wavesbackground = $("#waves-slider-background");
-    var thunderbackground = $("#thunder-slider-background");
-    var firebackground = $("#fire-slider-background");
-    var birdsbackground = $("#birds-slider-background");
-    var humansbackground = $("#humans-slider-background");
-
-    var rainplayer0 = $('#rainplayer')[0];
-    var rainglueplayer0 = $('#rainglueplayer')[0];
-    var wavesplayer0 = $('#wavesplayer')[0];
-    var wavesglueplayer0 = $('#wavesglueplayer')[0];
-    var thunderplayer0 = $('#thunderplayer')[0];
-    var thunderglueplayer0 = $('#thunderglueplayer')[0];
-    var fireplayer0 = $('#fireplayer')[0];
-    var fireglueplayer0 = $('#fireglueplayer')[0];
-    var birdsplayer0 = $('#birdsplayer')[0];
-    var birdsglueplayer0 = $('#birdsglueplayer')[0];
-    var humansplayer0 = $('#humansplayer')[0];
-    var humansglueplayer0 = $('#humansglueplayer')[0];
-
-    var rainplayer = $('#rainplayer');
-    var rainglueplayer = $('#rainglueplayer');
-    var wavesplayer = $('#wavesplayer');
-    var wavesglueplayer = $('#wavesglueplayer');
-    var thunderplayer = $('#thunderplayer');
-    var thunderglueplayer = $('#thunderglueplayer');
-    var fireplayer = $('#fireplayer');
-    var fireglueplayer = $('#fireglueplayer');
-    var birdsplayer = $('#birdsplayer');
-    var birdsglueplayer = $('#birdsglueplayer');
-    var humansplayer = $('#humansplayer');
-    var humansglueplayer = $('#humansglueplayer');
-
-    var reset = $('#reset');
-    var silence = $('#silence');
-
-    var buttonoptions = $('#buttonoptions');
-    var timedpausepre = $('#timedpausepre');
-    var timedpausepost = $('#timedpausepost');
-    var tpbutton = $('#timedpausebutton');
-    var canceltp = $('#canceltp');
-    var pauseminutesinput = $('#minutestillpause');
-
-    var timedfadepre = $('#timedfadepre');
-    var timedfadepost = $('#timedfadepost');
-    var tfbutton = $('#timedfadebutton');
-    var canceltf = $('#canceltf');
-    var fademinutesinput = $('#minutestillfade');
-
-    var ppbutton = $("#play-pause-button");
-
-    function loadAudible(player0, player) {
-      if (player0.volume > 0.02) {
-        player.attr("preload", "auto");
-      }
-    }
-
-    loadAudible(rainplayer0, rainplayer);
-    loadAudible(thunderplayer0, thunderplayer);
-    loadAudible(fireplayer0, fireplayer);
-    loadAudible(wavesplayer0, wavesplayer);
-    loadAudible(birdsplayer0, birdsplayer);
-    loadAudible(humansplayer0, humansplayer);
-
-    function playif(player, glueplayer) {
-      if (player.volume > 0.02) {
-        player.play();
-        if (player.currentTime < 0.01) {
-          glueplayer.currentTime = 7;
-          glueplayer.play();
-        }
-      }
-
-    }
-
-    function playall() {
-      playif(rainplayer0, rainglueplayer0);
-      playif(wavesplayer0, wavesglueplayer0);
-      playif(thunderplayer0, thunderglueplayer0);
-      playif(fireplayer0, fireglueplayer0);
-      playif(birdsplayer0, birdsglueplayer0);
-      playif(humansplayer0, humansglueplayer0);
-    }
-
-    function pauseall() {
-      rainplayer0.pause();
-      rainglueplayer0.pause();
-      wavesplayer0.pause();
-      wavesglueplayer0.pause();
-      thunderplayer0.pause();
-      thunderglueplayer0.pause();
-      fireplayer0.pause();
-      fireglueplayer0.pause();
-      birdsplayer0.pause();
-      birdsglueplayer0.pause();
-      humansplayer0.pause();
-      humansglueplayer0.pause();
-    }
-
-    //play-all and pause-all function
-
-    function slidervol(player, glueplayer, slider, sliderbackground) {
-      player.volume = slider.val();
-      glueplayer.volume = slider.val();
-      sliderbackground.css({ 'opacity': slider.val() });
-      if (player.volume > 0.02 && $("#play-pause-button").hasClass('pause-all')) {
-        player.play();
-      }
-      if (player.volume > 0.02 && $("#play-pause-button").hasClass('pause-all') && player.currentTime < 0.01 && glueplayer.paused) {
-        glueplayer.currentTime = 7;
-        glueplayer.play(); // play half of glueplayer while the main audio element loads          
-      }
-      if (player.volume <= 0.02) {
-        player.pause();
-      }
-      if (glueplayer.volume <= 0.02) {
-        glueplayer.pause();
-      }
-    }
-
-    function remembervol(slider, lsvol) {
-      localStorage.setItem(lsvol, slider.val());
-    }
-
-    // function updates volume at load and when slider moves and sets localstorage
-
-
-    var lastrainvol = localStorage.getItem("lsrain");
-    if (typeof lastrainvol != "object") {
-      rainslider.val(lastrainvol);
-      rainslider.slider("refresh");
-    }
-
-    slidervol(rainplayer0, rainglueplayer0, rainslider, rainbackground);
-
-    rainslider.on('change', function (event, ui) {
-      slidervol(rainplayer0, rainglueplayer0, rainslider, rainbackground);
-      remembervol(rainslider, "lsrain");
-    })
-
-    var lastwavesvol = localStorage.getItem("lswaves");
-    if (typeof lastwavesvol != "object") {
-      wavesslider.val(lastwavesvol);
-      wavesslider.slider("refresh");
-    }
-
-    slidervol(wavesplayer0, wavesglueplayer0, wavesslider, wavesbackground);
-
-    wavesslider.on('change', function (event, ui) {
-      slidervol(wavesplayer0, wavesglueplayer0, wavesslider, wavesbackground);
-      remembervol(wavesslider, "lswaves");
-    })
-
-    var lastthundervol = localStorage.getItem("lsthunder");
-    if (typeof lastthundervol != "object") {
-      thunderslider.val(lastthundervol);
-      thunderslider.slider("refresh");
-    }
-
-    slidervol(thunderplayer0, thunderglueplayer0, thunderslider, thunderbackground);
-
-    thunderslider.on('change', function (event, ui) {
-      slidervol(thunderplayer0, thunderglueplayer0, thunderslider, thunderbackground);
-      remembervol(thunderslider, "lsthunder");
-    })
-
-    var lastfirevol = localStorage.getItem("lsfire");
-    if (typeof lastfirevol != "object") {
-      fireslider.val(lastfirevol);
-      fireslider.slider("refresh");
-    }
-
-    slidervol(fireplayer0, fireglueplayer0, fireslider, firebackground);
-
-    fireslider.on('change', function (event, ui) {
-      slidervol(fireplayer0, fireglueplayer0, fireslider, firebackground);
-      remembervol(fireslider, "lsfire");
-    })
-
-    var lastbirdsvol = localStorage.getItem("lsbirds");
-    if (typeof lastbirdsvol != "object") {
-      birdsslider.val(lastbirdsvol);
-      birdsslider.slider("refresh");
-    }
-
-    slidervol(birdsplayer0, birdsglueplayer0, birdsslider, birdsbackground);
-
-    birdsslider.on('change', function (event, ui) {
-      slidervol(birdsplayer0, birdsglueplayer0, birdsslider, birdsbackground);
-      remembervol(birdsslider, "lsbirds");
-    })
-
-    var lasthumansvol = localStorage.getItem("lshumans");
-    if (typeof lasthumansvol != "object") {
-      humansslider.val(lasthumansvol);
-      humansslider.slider("refresh");
-    }
-
-    slidervol(humansplayer0, humansglueplayer0, humansslider, humansbackground);
-
-    humansslider.on('change', function (event, ui) {
-      slidervol(humansplayer0, humansglueplayer0, humansslider, humansbackground);
-      remembervol(humansslider, "lshumans");
-    })
-
-    // parameters to update audio by slider
-
-    function sloop(player, otherPlayer, time) {
-      if (player.currentTime >= time && otherPlayer.paused && !player.paused) {
-        otherPlayer.currentTime = 0;
-        otherPlayer.play();
-      }
-    }
-
-    // function to fake seamless looping
-
-    rainplayer.bind('timeupdate', function () {
-      sloop(rainplayer0, rainglueplayer0, 294);
-    })
-
-    rainglueplayer.bind('timeupdate', function () {
-      sloop(rainglueplayer0, rainplayer0, 5);
-    })
-
-    wavesplayer.bind('timeupdate', function () {
-      sloop(wavesplayer0, wavesglueplayer0, 234);
-    })
-
-    wavesglueplayer.bind('timeupdate', function () {
-      sloop(wavesglueplayer0, wavesplayer0, 5);
-    })
-
-    thunderplayer.bind('timeupdate', function () {
-      sloop(thunderplayer0, thunderglueplayer0, 294);
-    })
-
-    thunderglueplayer.bind('timeupdate', function () {
-      sloop(thunderglueplayer0, thunderplayer0, 5);
-    })
-
-    fireplayer.bind('timeupdate', function () {
-      sloop(fireplayer0, fireglueplayer0, 234);
-    })
-
-    fireglueplayer.bind('timeupdate', function () {
-      sloop(fireglueplayer0, fireplayer0, 5);
-    })
-
-    birdsplayer.bind('timeupdate', function () {
-      sloop(birdsplayer0, birdsglueplayer0, 294);
-    })
-
-    birdsglueplayer.bind('timeupdate', function () {
-      sloop(birdsglueplayer0, birdsplayer0, 5);
-    })
-
-    humansplayer.bind('timeupdate', function () {
-      sloop(humansplayer0, humansglueplayer0, 141);
-    })
-
-    humansglueplayer.bind('timeupdate', function () {
-      sloop(humansglueplayer0, humansplayer0, 5);
-    })
-
-    // looping parameters for each sample
-
-    $('label').on('click', false);
-
-    // prevent tap bringing up input dialogue on mobile devices
-
-    var optionsbutton = $("#optionsbutton");
-
-    $(".optionshidden").hide();
-    $(".show_hide").show();
-
-    $(".sharehidden").hide();
-
-    $('.show_hide').click(function () {
-      $(".optionshidden").slideToggle();
-
-      var optionstext = optionsbutton.text()
-
-      if (optionstext.indexOf("Options") !== -1) {
-        optionsbutton.text("Hide");
-      }
-      else {
-        optionsbutton.text("Options");
-      }
-    });
-
-    $('.sharetoggle').click(function () {
-      $(".sharehidden").slideToggle();
-    });
-
-    // function to show and hide options menu
-
-    function resetall(slider, volume) {
-      slider.val(volume);
-      slider.slider("refresh");
-    }
-
-    reset.click(function () {
-      resetall(rainslider, 0.3);
-      resetall(thunderslider, 0.8);
-      resetall(fireslider, 0.4);
-      resetall(wavesslider, 0);
-      resetall(birdsslider, 0);
-      resetall(humansslider, 0);
-    })
-
-    // reset: resets volume to defaults
-
-    function silenceall(slider) {
-      slider.val(0);
-      slider.slider("refresh");
-    }
-
-    silence.click(function () {
-      silenceall(rainslider);
-      silenceall(thunderslider);
-      silenceall(fireslider);
-      silenceall(wavesslider);
-      silenceall(birdsslider);
-      silenceall(humansslider);
-    })
-
-    // silence: sets all sliders to 0
-
-    function mstotime(inputms) {
-      var ms = inputms % 1000;
-      inputms = (inputms - ms) / 1000;
-      var secs = inputms % 60;
-      inputms = (inputms - secs) / 60;
-      var mins = inputms % 60;
-      var hrs = (inputms - mins) / 60;
-
-
-      if (hrs > 1) {
-        return hrs + ' hours, ' + mins + ' minutes and ' + secs + ' seconds';
-      }
-
-      if (hrs == 1) {
-        return hrs + ' hour, ' + mins + ' minutes and ' + secs + ' seconds';
-      }
-
-      if (hrs < 1) {
-        if (mins > 1) {
-          return mins + ' minutes and ' + secs + ' seconds';
-        }
-        if (mins == 1) {
-          return mins + ' minute and ' + secs + ' seconds';
-        }
-        if (mins < 1) {
-          return secs + ' seconds';
-        }
-      }
-
-    }
-
-    // convert ms to time for functions below
-
-    tpbutton.click(function () {
-
-      var pauseminutes = $("input#minutestillpause").val();
-      var pausems = pauseminutes * 60000;
-      var starttime = mstotime(pausems);
-
-      timedpausepre.css("display", "none");
-      timedfadepre.css("display", "none");
-      buttonoptions.css("display", "none");
-      $("#timedpauseminutesleft").text(starttime); // set the start time for the first second
-      timedpausepost.css("display", "inline");
-
-      if (ppbutton.hasClass('play-all')) {
-        playall();
-        ppbutton.attr("class", "pause-all");
-      }
-
-      var pausetimeout = setTimeout(function () { timedpausefunction() }, pausems);
-
-      function timedpausefunction() {
-        pauseall();
-        ppbutton.attr("class", "play-all");
-        timedpausepre.css("display", "inline");
-        timedpausepost.css("display", "none");
-        timedfadepre.css("display", "inline");
-        buttonoptions.css("display", "inline");
-      }
-
-      var timeupdate = setInterval(function () { timerupdate() }, 1000);
-
-      function timerupdate() {
-        pausems = pausems - 1000;
-        var timeleft = mstotime(pausems);
-        $("#timedpauseminutesleft").text(timeleft);
-        if (pausems <= 0) {
-          clearInterval(timeupdate);
-        }
-      }
-
-      canceltp.click(function () {
-        clearTimeout(pausetimeout);
-        clearInterval(timeupdate);
-        timedpausepre.css("display", "inline");
-        timedpausepost.css("display", "none");
-        timedfadepre.css("display", "inline");
-        buttonoptions.css("display", "inline");
-      })
-
-    })
-
-
-    // timed pause: pauses after x minutes
-
-    tfbutton.click(function () {
-
-      var fademinutes = $("input#minutestillfade").val();
-      var fadems = fademinutes * 60000;
-      var fadesecs = fadems / 1000;
-      var fadestarttime = mstotime(fadems);
-
-      var rainval = rainslider.val();
-      var rainco = rainslider.val() / fadesecs;
-
-      var thunderval = thunderslider.val();
-      var thunderco = thunderslider.val() / fadesecs;
-
-      var fireval = fireslider.val();
-      var fireco = fireslider.val() / fadesecs;
-
-      var wavesval = wavesslider.val();
-      var wavesco = wavesslider.val() / fadesecs;
-
-      var birdsval = birdsslider.val();
-      var birdsco = birdsslider.val() / fadesecs;
-
-      var humansval = humansslider.val();
-      var humansco = humansslider.val() / fadesecs;
-
-      timedpausepre.css("display", "none");
-      timedfadepre.css("display", "none");
-      buttonoptions.css("display", "none");
-      $("#timedfademinutesleft").text(fadestarttime); // set the start time for the first second
-      timedfadepost.css("display", "inline");
-
-      if (ppbutton.hasClass('play-all')) {
-        playall();
-        ppbutton.attr("class", "pause-all");
-      }
-
-      var fadetimeout = setInterval(function () { timedfadefunction() }, 1000);
-
-      function timedfadefunction() {
-
-        fadems = fadems - 1000;
-        var fadetimeleft = mstotime(fadems);
-        $("#timedfademinutesleft").text(fadetimeleft);
-
-        rainval = rainval - rainco;
-        rainslider.val(rainval);
-        rainslider.slider("refresh");
-
-        thunderval = thunderval - thunderco;
-        thunderslider.val(thunderval);
-        thunderslider.slider("refresh");
-
-        fireval = fireval - fireco;
-        fireslider.val(fireval);
-        fireslider.slider("refresh");
-
-        wavesval = wavesval - wavesco;
-        wavesslider.val(wavesval);
-        wavesslider.slider("refresh");
-
-        birdsval = birdsval - birdsco;
-        birdsslider.val(birdsval);
-        birdsslider.slider("refresh");
-
-        humansval = humansval - humansco;
-        humansslider.val(humansval);
-        humansslider.slider("refresh");
-
-        if (fadems <= 0) {
-          clearInterval(fadetimeout);
-          timedpausepre.css("display", "inline");
-          timedfadepre.css("display", "inline");
-          buttonoptions.css("display", "inline");
-          timedfadepost.css("display", "none");
-        }
-      }
-
-      canceltf.click(function () {
-        clearInterval(fadetimeout);
-        timedpausepre.css("display", "inline");
-        timedfadepost.css("display", "none");
-        timedfadepre.css("display", "inline");
-        buttonoptions.css("display", "inline");
-      })
-
-    })
-
-    // timed fade: fade all to silence over x minutes
-    // end of code for options menu
-
-    function getParameterByName(name) {
-      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    }
-
-    // get query strings from url
-
-    var urlvhex = getParameterByName("v");
-
-    if (urlvhex !== null) {
-
-      var queryvolumes = urlvhex.match(/.{1,2}/g) // split query string into array of 2char values
-      // note to self: this is what an array is
-
-      var queryrainvolume = parseInt(queryvolumes[0], 16) / 100; // convert value 0 to decimal, divide by 100
-      rainslider.val(queryrainvolume);
-      rainslider.slider("refresh");
-
-      var querythundervolume = parseInt(queryvolumes[1], 16) / 100;
-      thunderslider.val(querythundervolume);
-      thunderslider.slider("refresh");
-
-      var queryfirevolume = parseInt(queryvolumes[2], 16) / 100;
-      fireslider.val(queryfirevolume);
-      fireslider.slider("refresh");
-
-      var querywavesvolume = parseInt(queryvolumes[3], 16) / 100;
-      wavesslider.val(querywavesvolume);
-      wavesslider.slider("refresh");
-
-      var querybirdsvolume = parseInt(queryvolumes[4], 16) / 100;
-      birdsslider.val(querybirdsvolume);
-      birdsslider.slider("refresh");
-
-      var queryhumansvolume = parseInt(queryvolumes[5], 16) / 100;
-      humansslider.val(queryhumansvolume);
-      humansslider.slider("refresh");
-    }
-
-    // if query string is present, set sliders to value in string
-    // this section will always set the volume using query string, if present.
-
-    var share = $("#share");
-    var showshareurl = $("#showshareurl");
-
-    share.click(function () {
-
-      var sharetext = share.text()
-
-      if (sharetext.indexOf("Share") !== -1) {
-        share.text("Hide");
-      }
-      else {
-        share.text("Share your mix");
-      }
-
-      var raindec = Math.round(rainslider.val() * 100);
-      var rainhex = raindec.toString(16);
-      if (rainhex.length < 2) {
-        rainhex = "0" + rainhex;
-      }
-
-      var thunderdec = Math.round(thunderslider.val() * 100);
-      var thunderhex = thunderdec.toString(16);
-      if (thunderhex.length < 2) {
-        thunderhex = "0" + thunderhex;
-      }
-
-      var firedec = Math.round(fireslider.val() * 100);
-      var firehex = firedec.toString(16);
-      if (firehex.length < 2) {
-        firehex = "0" + firehex;
-      }
-
-      var wavesdec = Math.round(wavesslider.val() * 100);
-      var waveshex = wavesdec.toString(16);
-      if (waveshex.length < 2) {
-        waveshex = "0" + waveshex;
-      }
-
-      var birdsdec = Math.round(birdsslider.val() * 100);
-      var birdshex = birdsdec.toString(16);
-      if (birdshex.length < 2) {
-        birdshex = "0" + birdshex;
-      }
-
-      var humansdec = Math.round(humansslider.val() * 100);
-      var humanshex = humansdec.toString(16);
-      if (humanshex.length < 2) {
-        humanshex = "0" + humanshex;
-      }
-
-      var hexquery = rainhex + thunderhex + firehex + waveshex + birdshex + humanshex
-      var hexurl = "http://asoftmurmur.com/?v=" + hexquery
-
-      showshareurl.text(hexurl);
-
-      var facebooklink = $("#facebooklink");
-      var twitterlink = $("#twitterlink");
-      var googlepluslink = $("#googlepluslink");
-
-      facebooklink.attr("href", "http://www.facebook.com/sharer/sharer.php?s=100&p[url]=" + hexurl + "&p[images][0]=&p[title]=My%20ambient%20noise%20mix%20at%20A%20Soft%20Murmur&p[summary]=I%20made%20this%20mix%20of%20ambient%20sounds%20at%20asoftmurmur.com%20-%20Check%20it%20out!");
-      twitterlink.attr("href", "http://twitter.com/home?status=Check%20out%20my%20custom%20ambient%20noise%20mix:%20asoftmurmur.com/%3Fv%3D" + hexquery + "%20@asoftmurmur");
-      googlepluslink.attr("href", "https://plus.google.com/share?url=" + hexurl);
-    })
-
-
-    // write url with query string when called
-    //write social urls
-
-    $(window).load(function () {
-
-      $("#loading").css("display", "none");
-      $("#all-controls").css("display", "inline");
-
-      ppbutton.click(function () {
-        if ($(this).hasClass('play-all')) {
-          playall();
-          $(this).attr("class", "pause-all");
-        }
-        else {
-          pauseall();
-          $(this).attr("class", "play-all");
-        }
-      })
-
-      wavesplayer.attr("preload", "auto");
-      rainplayer.attr("preload", "auto");
-      thunderplayer.attr("preload", "auto");
-      fireplayer.attr("preload", "auto");
-      birdsplayer.attr("preload", "auto");
-      humansplayer.attr("preload", "auto");
-
-    })
-
-  })
-</script>
-
-{% endblock %}
-
-
-
-
-{% block content%}
-
-<div id="page-container">
-
-  <div id="site-title">
-    <h1>A SOFT MURMUR</h1>
-  </div>
-
-  <div id="intro-text" class="dtext">
-    <p>Ambient sounds to wash away distraction.</p>
-  </div>
-
-  <div id="all-controls">
-    <div id="play-pause-container">
-      <a href="#">
-        <div id="play-pause-button" class="play-all"></div>
-      </a>
-    </div>
-  </div>
-  <div id="loading" class="dtext">
-    <p>Loading...</p>
-  </div>
-
-  <div id="sliders-container">
-
-    <div id="rain-slider-container" class="sliders">
-      <div id="rain-slider-background" class="slider-background"></div>
-      <div id="rain-slider-container-inner" class="slider-inner">
-        <div class="labelfix"> <label for="rain-slider">Rain</label> </div>
-        <input type="range" id="rain-slider" value="0.3" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
-      </div>
-    </div>
-
-    <div id="thunder-slider-container" class="sliders">
-      <div id="thunder-slider-background" class="slider-background"></div>
-      <div id="thunder-slider-container-inner" class="slider-inner">
-        <div class="labelfix"> <label for="thunder-slider">Thunder</label> </div>
-        <input type="range" id="thunder-slider" value="0.8" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
-      </div>
-    </div>
-
-    <div id="fire-slider-container" class="sliders">
-      <div id="fire-slider-background" class="slider-background"></div>
-      <div id="fire-slider-container-inner" class="slider-inner">
-        <div class="labelfix"> <label for="fire-slider">Fire</label> </div>
-        <input type="range" id="fire-slider" value="0.4" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
-      </div>
-    </div>
-
-    <div id="waves-slider-container" class="sliders">
-      <div id="waves-slider-background" class="slider-background"></div>
-      <div id="waves-slider-container-inner" class="slider-inner">
-        <div class="labelfix"> <label for="waves-slider">Waves</label> </div>
-        <input type="range" id="waves-slider" value="0.0" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
-      </div>
-    </div>
-
-    <div id="birds-slider-container" class="sliders">
-      <div id="birds-slider-background" class="slider-background"></div>
-      <div id="birds-slider-container-inner" class="slider-inner">
-        <div class="labelfix"> <label for="birds-slider">Birds</label> </div>
-        <input type="range" id="birds-slider" value="0.0" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
-      </div>
-    </div>
-
-    <div id="humans-slider-container" class="sliders">
-      <div id="humans-slider-background" class="slider-background"></div>
-      <div id="humans-slider-container-inner" class="slider-inner">
-        <div class="labelfix"> <label for="humans-slider">Humans</label> </div>
-        <input type="range" id="humans-slider" value="0.0" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
-      </div>
-    </div>
-
-  </div>
-
-  <div id="image-preload-1">
-  </div>
-
-  <div id="image-preload-2">
-  </div>
-
-  <!-- Audio players without controls -->
-
-  <div class="audioplayer">
-    <audio id="wavesplayer" loop preload="none">
-      <source src="../../static/assets/audio/waves.fade.mp4" type="audio/mp4" />
-      <source src="../../static/assets/audio/waves.fade.ogg" type="audio/ogg" />
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="wavesglueplayer" preload="auto">
-      <source src="../../static/assets/audio/waves.glue.mp4" type="audio/mp4" />
-      <source src="../../static/assets/audio/waves.glue.ogg" type="audio/ogg" />
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="rainplayer" loop preload="none">
-      <source src="../../static/assets/audio/rain.fade.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/rain.fade.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="rainglueplayer" preload="auto">
-      <source src="../../static/assets/audio/rain.glue.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/rain.glue.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="thunderplayer" loop preload="none">
-      <source src="../../static/assets/audio/thunder.fade.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/thunder.fade.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="thunderglueplayer" preload="auto">
-      <source src="../../static/assets/audio/thunder.glue.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/thunder.glue.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="fireplayer" loop preload="none">
-      <source src="../../static/assets/audio/fire.fade.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/fire.fade.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="fireglueplayer" preload="auto">
-      <source src="../../static/assets/audio/fire.glue.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/fire.glue.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="birdsplayer" loop preload="none">
-      <source src="../../static/assets/audio/birds.fade.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/birds.fade.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="birdsglueplayer" preload="auto">
-      <source src="../../static/assets/audio/birds.glue.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/birds.glue.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="humansplayer" loop preload="none">
-      <source src="../../static/assets/audio/humans.fade.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/humans.fade.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <div class="audioplayer">
-    <audio id="humansglueplayer" preload="auto">
-      <source src="../../static/assets/audio/humans.glue.mp4" type="audio/mp4">
-      <source src="../../static/assets/audio/humans.glue.ogg" type="audio/ogg">
-    </audio>
-  </div>
-
-  <!-- end audio players -->
-
-</div>
-
-{% endblock content %}
-
-
-
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset=utf-8 />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A Soft Murmur</title>
+  <title>Relaxing sounds</title>
   <link rel="stylesheet" href="../../static/assets/css/soothing_sounds.css" />
   <link rel="stylesheet" href="../../static/assets/js/jquery.mobile.custom.structure.min.css" />
   <script src="../../static/assets/js/jquery-1.9.1.min.js"></script>
   <script src="../../static/assets/js/jquery.mobile.custom.min.js"></script>
 
   <link rel="icon" href="favicon.png">
+  <script type="text/javascript">
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-42700626-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+
+      var rainslider = $("#rain-slider");
+      var wavesslider = $("#waves-slider");
+      var thunderslider = $("#thunder-slider");
+      var fireslider = $("#fire-slider");
+      var birdsslider = $("#birds-slider");
+      var humansslider = $("#humans-slider");
+
+      var rainbackground = $("#rain-slider-background");
+      var wavesbackground = $("#waves-slider-background");
+      var thunderbackground = $("#thunder-slider-background");
+      var firebackground = $("#fire-slider-background");
+      var birdsbackground = $("#birds-slider-background");
+      var humansbackground = $("#humans-slider-background");
+
+      var rainplayer0 = $('#rainplayer')[0];
+      var rainglueplayer0 = $('#rainglueplayer')[0];
+      var wavesplayer0 = $('#wavesplayer')[0];
+      var wavesglueplayer0 = $('#wavesglueplayer')[0];
+      var thunderplayer0 = $('#thunderplayer')[0];
+      var thunderglueplayer0 = $('#thunderglueplayer')[0];
+      var fireplayer0 = $('#fireplayer')[0];
+      var fireglueplayer0 = $('#fireglueplayer')[0];
+      var birdsplayer0 = $('#birdsplayer')[0];
+      var birdsglueplayer0 = $('#birdsglueplayer')[0];
+      var humansplayer0 = $('#humansplayer')[0];
+      var humansglueplayer0 = $('#humansglueplayer')[0];
+
+      var rainplayer = $('#rainplayer');
+      var rainglueplayer = $('#rainglueplayer');
+      var wavesplayer = $('#wavesplayer');
+      var wavesglueplayer = $('#wavesglueplayer');
+      var thunderplayer = $('#thunderplayer');
+      var thunderglueplayer = $('#thunderglueplayer');
+      var fireplayer = $('#fireplayer');
+      var fireglueplayer = $('#fireglueplayer');
+      var birdsplayer = $('#birdsplayer');
+      var birdsglueplayer = $('#birdsglueplayer');
+      var humansplayer = $('#humansplayer');
+      var humansglueplayer = $('#humansglueplayer');
+
+      var reset = $('#reset');
+      var silence = $('#silence');
+
+      var buttonoptions = $('#buttonoptions');
+      var timedpausepre = $('#timedpausepre');
+      var timedpausepost = $('#timedpausepost');
+      var tpbutton = $('#timedpausebutton');
+      var canceltp = $('#canceltp');
+      var pauseminutesinput = $('#minutestillpause');
+
+      var timedfadepre = $('#timedfadepre');
+      var timedfadepost = $('#timedfadepost');
+      var tfbutton = $('#timedfadebutton');
+      var canceltf = $('#canceltf');
+      var fademinutesinput = $('#minutestillfade');
+
+      var ppbutton = $("#play-pause-button");
+
+      function loadAudible(player0, player) {
+        if (player0.volume > 0.02) {
+          player.attr("preload", "auto");
+        }
+      }
+
+      loadAudible(rainplayer0, rainplayer);
+      loadAudible(thunderplayer0, thunderplayer);
+      loadAudible(fireplayer0, fireplayer);
+      loadAudible(wavesplayer0, wavesplayer);
+      loadAudible(birdsplayer0, birdsplayer);
+      loadAudible(humansplayer0, humansplayer);
+
+      function playif(player, glueplayer) {
+        if (player.volume > 0.02) {
+          player.play();
+          if (player.currentTime < 0.01) {
+            glueplayer.currentTime = 7;
+            glueplayer.play();
+          }
+        }
+
+      }
+
+      function playall() {
+        playif(rainplayer0, rainglueplayer0);
+        playif(wavesplayer0, wavesglueplayer0);
+        playif(thunderplayer0, thunderglueplayer0);
+        playif(fireplayer0, fireglueplayer0);
+        playif(birdsplayer0, birdsglueplayer0);
+        playif(humansplayer0, humansglueplayer0);
+      }
+
+      function pauseall() {
+        rainplayer0.pause();
+        rainglueplayer0.pause();
+        wavesplayer0.pause();
+        wavesglueplayer0.pause();
+        thunderplayer0.pause();
+        thunderglueplayer0.pause();
+        fireplayer0.pause();
+        fireglueplayer0.pause();
+        birdsplayer0.pause();
+        birdsglueplayer0.pause();
+        humansplayer0.pause();
+        humansglueplayer0.pause();
+      }
+
+      //play-all and pause-all function
+
+      function slidervol(player, glueplayer, slider, sliderbackground) {
+        player.volume = slider.val();
+        glueplayer.volume = slider.val();
+        sliderbackground.css({ 'opacity': slider.val() });
+        if (player.volume > 0.02 && $("#play-pause-button").hasClass('pause-all')) {
+          player.play();
+        }
+        if (player.volume > 0.02 && $("#play-pause-button").hasClass('pause-all') && player.currentTime < 0.01 && glueplayer.paused) {
+          glueplayer.currentTime = 7;
+          glueplayer.play(); // play half of glueplayer while the main audio element loads          
+        }
+        if (player.volume <= 0.02) {
+          player.pause();
+        }
+        if (glueplayer.volume <= 0.02) {
+          glueplayer.pause();
+        }
+      }
+
+      function remembervol(slider, lsvol) {
+        localStorage.setItem(lsvol, slider.val());
+      }
+
+      // function updates volume at load and when slider moves and sets localstorage
+
+
+      var lastrainvol = localStorage.getItem("lsrain");
+      if (typeof lastrainvol != "object") {
+        rainslider.val(lastrainvol);
+        rainslider.slider("refresh");
+      }
+
+      slidervol(rainplayer0, rainglueplayer0, rainslider, rainbackground);
+
+      rainslider.on('change', function (event, ui) {
+        slidervol(rainplayer0, rainglueplayer0, rainslider, rainbackground);
+        remembervol(rainslider, "lsrain");
+      })
+
+      var lastwavesvol = localStorage.getItem("lswaves");
+      if (typeof lastwavesvol != "object") {
+        wavesslider.val(lastwavesvol);
+        wavesslider.slider("refresh");
+      }
+
+      slidervol(wavesplayer0, wavesglueplayer0, wavesslider, wavesbackground);
+
+      wavesslider.on('change', function (event, ui) {
+        slidervol(wavesplayer0, wavesglueplayer0, wavesslider, wavesbackground);
+        remembervol(wavesslider, "lswaves");
+      })
+
+      var lastthundervol = localStorage.getItem("lsthunder");
+      if (typeof lastthundervol != "object") {
+        thunderslider.val(lastthundervol);
+        thunderslider.slider("refresh");
+      }
+
+      slidervol(thunderplayer0, thunderglueplayer0, thunderslider, thunderbackground);
+
+      thunderslider.on('change', function (event, ui) {
+        slidervol(thunderplayer0, thunderglueplayer0, thunderslider, thunderbackground);
+        remembervol(thunderslider, "lsthunder");
+      })
+
+      var lastfirevol = localStorage.getItem("lsfire");
+      if (typeof lastfirevol != "object") {
+        fireslider.val(lastfirevol);
+        fireslider.slider("refresh");
+      }
+
+      slidervol(fireplayer0, fireglueplayer0, fireslider, firebackground);
+
+      fireslider.on('change', function (event, ui) {
+        slidervol(fireplayer0, fireglueplayer0, fireslider, firebackground);
+        remembervol(fireslider, "lsfire");
+      })
+
+      var lastbirdsvol = localStorage.getItem("lsbirds");
+      if (typeof lastbirdsvol != "object") {
+        birdsslider.val(lastbirdsvol);
+        birdsslider.slider("refresh");
+      }
+
+      slidervol(birdsplayer0, birdsglueplayer0, birdsslider, birdsbackground);
+
+      birdsslider.on('change', function (event, ui) {
+        slidervol(birdsplayer0, birdsglueplayer0, birdsslider, birdsbackground);
+        remembervol(birdsslider, "lsbirds");
+      })
+
+      var lasthumansvol = localStorage.getItem("lshumans");
+      if (typeof lasthumansvol != "object") {
+        humansslider.val(lasthumansvol);
+        humansslider.slider("refresh");
+      }
+
+      slidervol(humansplayer0, humansglueplayer0, humansslider, humansbackground);
+
+      humansslider.on('change', function (event, ui) {
+        slidervol(humansplayer0, humansglueplayer0, humansslider, humansbackground);
+        remembervol(humansslider, "lshumans");
+      })
+
+      // parameters to update audio by slider
+
+      function sloop(player, otherPlayer, time) {
+        if (player.currentTime >= time && otherPlayer.paused && !player.paused) {
+          otherPlayer.currentTime = 0;
+          otherPlayer.play();
+        }
+      }
+
+      // function to fake seamless looping
+
+      rainplayer.bind('timeupdate', function () {
+        sloop(rainplayer0, rainglueplayer0, 294);
+      })
+
+      rainglueplayer.bind('timeupdate', function () {
+        sloop(rainglueplayer0, rainplayer0, 5);
+      })
+
+      wavesplayer.bind('timeupdate', function () {
+        sloop(wavesplayer0, wavesglueplayer0, 234);
+      })
+
+      wavesglueplayer.bind('timeupdate', function () {
+        sloop(wavesglueplayer0, wavesplayer0, 5);
+      })
+
+      thunderplayer.bind('timeupdate', function () {
+        sloop(thunderplayer0, thunderglueplayer0, 294);
+      })
+
+      thunderglueplayer.bind('timeupdate', function () {
+        sloop(thunderglueplayer0, thunderplayer0, 5);
+      })
+
+      fireplayer.bind('timeupdate', function () {
+        sloop(fireplayer0, fireglueplayer0, 234);
+      })
+
+      fireglueplayer.bind('timeupdate', function () {
+        sloop(fireglueplayer0, fireplayer0, 5);
+      })
+
+      birdsplayer.bind('timeupdate', function () {
+        sloop(birdsplayer0, birdsglueplayer0, 294);
+      })
+
+      birdsglueplayer.bind('timeupdate', function () {
+        sloop(birdsglueplayer0, birdsplayer0, 5);
+      })
+
+      humansplayer.bind('timeupdate', function () {
+        sloop(humansplayer0, humansglueplayer0, 141);
+      })
+
+      humansglueplayer.bind('timeupdate', function () {
+        sloop(humansglueplayer0, humansplayer0, 5);
+      })
+
+      // looping parameters for each sample
+
+      $('label').on('click', false);
+
+      // prevent tap bringing up input dialogue on mobile devices
+
+      var optionsbutton = $("#optionsbutton");
+
+      $(".optionshidden").hide();
+      $(".show_hide").show();
+
+      $(".sharehidden").hide();
+
+      $('.show_hide').click(function () {
+        $(".optionshidden").slideToggle();
+
+        var optionstext = optionsbutton.text()
+
+        if (optionstext.indexOf("Options") !== -1) {
+          optionsbutton.text("Hide");
+        }
+        else {
+          optionsbutton.text("Options");
+        }
+      });
+
+      $('.sharetoggle').click(function () {
+        $(".sharehidden").slideToggle();
+      });
+
+      // function to show and hide options menu
+
+      function resetall(slider, volume) {
+        slider.val(volume);
+        slider.slider("refresh");
+      }
+
+      reset.click(function () {
+        resetall(rainslider, 0.3);
+        resetall(thunderslider, 0.8);
+        resetall(fireslider, 0.4);
+        resetall(wavesslider, 0);
+        resetall(birdsslider, 0);
+        resetall(humansslider, 0);
+      })
+
+      // reset: resets volume to defaults
+
+      function silenceall(slider) {
+        slider.val(0);
+        slider.slider("refresh");
+      }
+
+      silence.click(function () {
+        silenceall(rainslider);
+        silenceall(thunderslider);
+        silenceall(fireslider);
+        silenceall(wavesslider);
+        silenceall(birdsslider);
+        silenceall(humansslider);
+      })
+
+      // silence: sets all sliders to 0
+
+      function mstotime(inputms) {
+        var ms = inputms % 1000;
+        inputms = (inputms - ms) / 1000;
+        var secs = inputms % 60;
+        inputms = (inputms - secs) / 60;
+        var mins = inputms % 60;
+        var hrs = (inputms - mins) / 60;
+
+
+        if (hrs > 1) {
+          return hrs + ' hours, ' + mins + ' minutes and ' + secs + ' seconds';
+        }
+
+        if (hrs == 1) {
+          return hrs + ' hour, ' + mins + ' minutes and ' + secs + ' seconds';
+        }
+
+        if (hrs < 1) {
+          if (mins > 1) {
+            return mins + ' minutes and ' + secs + ' seconds';
+          }
+          if (mins == 1) {
+            return mins + ' minute and ' + secs + ' seconds';
+          }
+          if (mins < 1) {
+            return secs + ' seconds';
+          }
+        }
+
+      }
+
+      // convert ms to time for functions below
+
+      tpbutton.click(function () {
+
+        var pauseminutes = $("input#minutestillpause").val();
+        var pausems = pauseminutes * 60000;
+        var starttime = mstotime(pausems);
+
+        timedpausepre.css("display", "none");
+        timedfadepre.css("display", "none");
+        buttonoptions.css("display", "none");
+        $("#timedpauseminutesleft").text(starttime); // set the start time for the first second
+        timedpausepost.css("display", "inline");
+
+        if (ppbutton.hasClass('play-all')) {
+          playall();
+          ppbutton.attr("class", "pause-all");
+        }
+
+        var pausetimeout = setTimeout(function () { timedpausefunction() }, pausems);
+
+        function timedpausefunction() {
+          pauseall();
+          ppbutton.attr("class", "play-all");
+          timedpausepre.css("display", "inline");
+          timedpausepost.css("display", "none");
+          timedfadepre.css("display", "inline");
+          buttonoptions.css("display", "inline");
+        }
+
+        var timeupdate = setInterval(function () { timerupdate() }, 1000);
+
+        function timerupdate() {
+          pausems = pausems - 1000;
+          var timeleft = mstotime(pausems);
+          $("#timedpauseminutesleft").text(timeleft);
+          if (pausems <= 0) {
+            clearInterval(timeupdate);
+          }
+        }
+
+        canceltp.click(function () {
+          clearTimeout(pausetimeout);
+          clearInterval(timeupdate);
+          timedpausepre.css("display", "inline");
+          timedpausepost.css("display", "none");
+          timedfadepre.css("display", "inline");
+          buttonoptions.css("display", "inline");
+        })
+
+      })
+
+
+      // timed pause: pauses after x minutes
+
+      tfbutton.click(function () {
+
+        var fademinutes = $("input#minutestillfade").val();
+        var fadems = fademinutes * 60000;
+        var fadesecs = fadems / 1000;
+        var fadestarttime = mstotime(fadems);
+
+        var rainval = rainslider.val();
+        var rainco = rainslider.val() / fadesecs;
+
+        var thunderval = thunderslider.val();
+        var thunderco = thunderslider.val() / fadesecs;
+
+        var fireval = fireslider.val();
+        var fireco = fireslider.val() / fadesecs;
+
+        var wavesval = wavesslider.val();
+        var wavesco = wavesslider.val() / fadesecs;
+
+        var birdsval = birdsslider.val();
+        var birdsco = birdsslider.val() / fadesecs;
+
+        var humansval = humansslider.val();
+        var humansco = humansslider.val() / fadesecs;
+
+        timedpausepre.css("display", "none");
+        timedfadepre.css("display", "none");
+        buttonoptions.css("display", "none");
+        $("#timedfademinutesleft").text(fadestarttime); // set the start time for the first second
+        timedfadepost.css("display", "inline");
+
+        if (ppbutton.hasClass('play-all')) {
+          playall();
+          ppbutton.attr("class", "pause-all");
+        }
+
+        var fadetimeout = setInterval(function () { timedfadefunction() }, 1000);
+
+        function timedfadefunction() {
+
+          fadems = fadems - 1000;
+          var fadetimeleft = mstotime(fadems);
+          $("#timedfademinutesleft").text(fadetimeleft);
+
+          rainval = rainval - rainco;
+          rainslider.val(rainval);
+          rainslider.slider("refresh");
+
+          thunderval = thunderval - thunderco;
+          thunderslider.val(thunderval);
+          thunderslider.slider("refresh");
+
+          fireval = fireval - fireco;
+          fireslider.val(fireval);
+          fireslider.slider("refresh");
+
+          wavesval = wavesval - wavesco;
+          wavesslider.val(wavesval);
+          wavesslider.slider("refresh");
+
+          birdsval = birdsval - birdsco;
+          birdsslider.val(birdsval);
+          birdsslider.slider("refresh");
+
+          humansval = humansval - humansco;
+          humansslider.val(humansval);
+          humansslider.slider("refresh");
+
+          if (fadems <= 0) {
+            clearInterval(fadetimeout);
+            timedpausepre.css("display", "inline");
+            timedfadepre.css("display", "inline");
+            buttonoptions.css("display", "inline");
+            timedfadepost.css("display", "none");
+          }
+        }
+
+        canceltf.click(function () {
+          clearInterval(fadetimeout);
+          timedpausepre.css("display", "inline");
+          timedfadepost.css("display", "none");
+          timedfadepre.css("display", "inline");
+          buttonoptions.css("display", "inline");
+        })
+
+      })
+
+      // timed fade: fade all to silence over x minutes
+      // end of code for options menu
+
+      function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+      }
+
+      // get query strings from url
+
+      var urlvhex = getParameterByName("v");
+
+      if (urlvhex !== null) {
+
+        var queryvolumes = urlvhex.match(/.{1,2}/g) // split query string into array of 2char values
+        // note to self: this is what an array is
+
+        var queryrainvolume = parseInt(queryvolumes[0], 16) / 100; // convert value 0 to decimal, divide by 100
+        rainslider.val(queryrainvolume);
+        rainslider.slider("refresh");
+
+        var querythundervolume = parseInt(queryvolumes[1], 16) / 100;
+        thunderslider.val(querythundervolume);
+        thunderslider.slider("refresh");
+
+        var queryfirevolume = parseInt(queryvolumes[2], 16) / 100;
+        fireslider.val(queryfirevolume);
+        fireslider.slider("refresh");
+
+        var querywavesvolume = parseInt(queryvolumes[3], 16) / 100;
+        wavesslider.val(querywavesvolume);
+        wavesslider.slider("refresh");
+
+        var querybirdsvolume = parseInt(queryvolumes[4], 16) / 100;
+        birdsslider.val(querybirdsvolume);
+        birdsslider.slider("refresh");
+
+        var queryhumansvolume = parseInt(queryvolumes[5], 16) / 100;
+        humansslider.val(queryhumansvolume);
+        humansslider.slider("refresh");
+      }
+
+      // if query string is present, set sliders to value in string
+      // this section will always set the volume using query string, if present.
+
+      var share = $("#share");
+      var showshareurl = $("#showshareurl");
+
+      share.click(function () {
+
+        var sharetext = share.text()
+
+        if (sharetext.indexOf("Share") !== -1) {
+          share.text("Hide");
+        }
+        else {
+          share.text("Share your mix");
+        }
+
+        var raindec = Math.round(rainslider.val() * 100);
+        var rainhex = raindec.toString(16);
+        if (rainhex.length < 2) {
+          rainhex = "0" + rainhex;
+        }
+
+        var thunderdec = Math.round(thunderslider.val() * 100);
+        var thunderhex = thunderdec.toString(16);
+        if (thunderhex.length < 2) {
+          thunderhex = "0" + thunderhex;
+        }
+
+        var firedec = Math.round(fireslider.val() * 100);
+        var firehex = firedec.toString(16);
+        if (firehex.length < 2) {
+          firehex = "0" + firehex;
+        }
+
+        var wavesdec = Math.round(wavesslider.val() * 100);
+        var waveshex = wavesdec.toString(16);
+        if (waveshex.length < 2) {
+          waveshex = "0" + waveshex;
+        }
+
+        var birdsdec = Math.round(birdsslider.val() * 100);
+        var birdshex = birdsdec.toString(16);
+        if (birdshex.length < 2) {
+          birdshex = "0" + birdshex;
+        }
+
+        var humansdec = Math.round(humansslider.val() * 100);
+        var humanshex = humansdec.toString(16);
+        if (humanshex.length < 2) {
+          humanshex = "0" + humanshex;
+        }
+
+        var hexquery = rainhex + thunderhex + firehex + waveshex + birdshex + humanshex
+        var hexurl = "http://asoftmurmur.com/?v=" + hexquery
+
+        showshareurl.text(hexurl);
+
+        var facebooklink = $("#facebooklink");
+        var twitterlink = $("#twitterlink");
+        var googlepluslink = $("#googlepluslink");
+
+        facebooklink.attr("href", "http://www.facebook.com/sharer/sharer.php?s=100&p[url]=" + hexurl + "&p[images][0]=&p[title]=My%20ambient%20noise%20mix%20at%20A%20Soft%20Murmur&p[summary]=I%20made%20this%20mix%20of%20ambient%20sounds%20at%20asoftmurmur.com%20-%20Check%20it%20out!");
+        twitterlink.attr("href", "http://twitter.com/home?status=Check%20out%20my%20custom%20ambient%20noise%20mix:%20asoftmurmur.com/%3Fv%3D" + hexquery + "%20@asoftmurmur");
+        googlepluslink.attr("href", "https://plus.google.com/share?url=" + hexurl);
+      })
+
+
+      // write url with query string when called
+      //write social urls
+
+      $(window).load(function () {
+
+        $("#loading").css("display", "none");
+        $("#all-controls").css("display", "inline");
+
+        ppbutton.click(function () {
+          if ($(this).hasClass('play-all')) {
+            playall();
+            $(this).attr("class", "pause-all");
+          }
+          else {
+            pauseall();
+            $(this).attr("class", "play-all");
+          }
+        })
+
+        wavesplayer.attr("preload", "auto");
+        rainplayer.attr("preload", "auto");
+        thunderplayer.attr("preload", "auto");
+        fireplayer.attr("preload", "auto");
+        birdsplayer.attr("preload", "auto");
+        humansplayer.attr("preload", "auto");
+
+      })
+
+    })
+  </script>
 </head>
 
 <body data-role="none">
+  <div id="page-container">
+    <div id="all-controls">
+      <div id="play-pause-container">
+        <a href="#">
+          <div id="play-pause-button" class="play-all"></div>
+        </a>
+      </div>
+    </div>
+    <div id="site-title">
+    </div>
 
+
+    <div id="loading" class="dtext">
+      <p>Loading...</p>
+    </div>
+
+    <div id="sliders-container">
+
+      <div id="rain-slider-container" class="sliders">
+        <div id="rain-slider-background" class="slider-background"></div>
+        <div id="rain-slider-container-inner" class="slider-inner">
+          <div class="labelfix"> <label for="rain-slider">Rain</label> </div>
+          <input type="range" id="rain-slider" value="0.3" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
+        </div>
+      </div>
+
+      <div id="thunder-slider-container" class="sliders">
+        <div id="thunder-slider-background" class="slider-background"></div>
+        <div id="thunder-slider-container-inner" class="slider-inner">
+          <div class="labelfix"> <label for="thunder-slider">Thunder</label> </div>
+          <input type="range" id="thunder-slider" value="0.8" min="0" max="1" step="0.01"
+            class="ui-hidden-accessible" />
+        </div>
+      </div>
+
+      <div id="fire-slider-container" class="sliders">
+        <div id="fire-slider-background" class="slider-background"></div>
+        <div id="fire-slider-container-inner" class="slider-inner">
+          <div class="labelfix"> <label for="fire-slider">Fire</label> </div>
+          <input type="range" id="fire-slider" value="0.4" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
+        </div>
+      </div>
+
+      <div id="waves-slider-container" class="sliders">
+        <div id="waves-slider-background" class="slider-background"></div>
+        <div id="waves-slider-container-inner" class="slider-inner">
+          <div class="labelfix"> <label for="waves-slider">Waves</label> </div>
+          <input type="range" id="waves-slider" value="0.0" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
+        </div>
+      </div>
+
+      <div id="birds-slider-container" class="sliders">
+        <div id="birds-slider-background" class="slider-background"></div>
+        <div id="birds-slider-container-inner" class="slider-inner">
+          <div class="labelfix"> <label for="birds-slider">Birds</label> </div>
+          <input type="range" id="birds-slider" value="0.0" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
+        </div>
+      </div>
+
+      <div id="humans-slider-container" class="sliders">
+        <div id="humans-slider-background" class="slider-background"></div>
+        <div id="humans-slider-container-inner" class="slider-inner">
+          <div class="labelfix"> <label for="humans-slider">Humans</label> </div>
+          <input type="range" id="humans-slider" value="0.0" min="0" max="1" step="0.01" class="ui-hidden-accessible" />
+        </div>
+      </div>
+
+    </div>
+
+    <div id="image-preload-1">
+    </div>
+
+    <div id="image-preload-2">
+    </div>
+
+    <!-- Audio players without controls -->
+
+    <div class="audioplayer">
+      <audio id="wavesplayer" loop preload="none">
+        <source src="../../static/assets/audio/waves.fade.mp4" type="audio/mp4" />
+        <source src="../../static/assets/audio/waves.fade.ogg" type="audio/ogg" />
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="wavesglueplayer" preload="auto">
+        <source src="../../static/assets/audio/waves.glue.mp4" type="audio/mp4" />
+        <source src="../../static/assets/audio/waves.glue.ogg" type="audio/ogg" />
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="rainplayer" loop preload="none">
+        <source src="../../static/assets/audio/rain.fade.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/rain.fade.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="rainglueplayer" preload="auto">
+        <source src="../../static/assets/audio/rain.glue.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/rain.glue.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="thunderplayer" loop preload="none">
+        <source src="../../static/assets/audio/thunder.fade.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/thunder.fade.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="thunderglueplayer" preload="auto">
+        <source src="../../static/assets/audio/thunder.glue.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/thunder.glue.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="fireplayer" loop preload="none">
+        <source src="../../static/assets/audio/fire.fade.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/fire.fade.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="fireglueplayer" preload="auto">
+        <source src="../../static/assets/audio/fire.glue.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/fire.glue.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="birdsplayer" loop preload="none">
+        <source src="../../static/assets/audio/birds.fade.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/birds.fade.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="birdsglueplayer" preload="auto">
+        <source src="../../static/assets/audio/birds.glue.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/birds.glue.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="humansplayer" loop preload="none">
+        <source src="../../static/assets/audio/humans.fade.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/humans.fade.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div class="audioplayer">
+      <audio id="humansglueplayer" preload="auto">
+        <source src="../../static/assets/audio/humans.glue.mp4" type="audio/mp4">
+        <source src="../../static/assets/audio/humans.glue.ogg" type="audio/ogg">
+      </audio>
+    </div>
+
+    <!-- end audio players -->
+
+  </div>
 </body>
 
-</html> -->
+</html>
