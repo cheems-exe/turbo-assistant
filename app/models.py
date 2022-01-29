@@ -14,6 +14,7 @@ class Todo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     deadline_time = models.DateTimeField()
     priority = models.IntegerField(choices=PRIORITY_CHOICES)
+    status = models.IntegerField(default=0)
 
 
 class JournalPage(models.Model):

@@ -4,9 +4,15 @@ from django.views.generic import TemplateView
 
 from . import views
 from .utils_text_summarizing import speech_to_text
+from .views import *
+from .views_to_dos import *
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('todo/', list_todos),
+    path('todo/<int:pk>/', detailed_todos, name="detailed_todos"),
+    path('new_todo', create_todo, name="create_todo"),
+    path('edit_todo/<int:id>', edit_todo, name="edit_todo"),
+    path('handle_todo_done/<int:pk>/', handle_todo_done, name="handle_todo_done"),
     path('journal/', views.journal, name='journal'),
     path('summarize_text/', speech_to_text, name="summarize_text"),
     path('meditation/', views.meditation, name="meditation"),

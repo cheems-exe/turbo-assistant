@@ -1,0 +1,57 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Dashboard | TODO {% endblock %}
+
+
+
+{% block content%}
+  <div class="row">
+    <div class="col-xl-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h2>TODO # {{todo.id}}</h2>
+
+          <div class="table-responsive">
+            <h5>Title:</h5>
+            <h1>{{todo.title}}</h1>
+            <hr>
+            
+            <h5>Priority:</h5>
+            <h1>{{todo.priority}}</h1>
+            <hr>
+            
+
+            <h5>Description:</h5>
+            <h3>{{todo.description}}</h3>
+            <hr>
+
+            <h5>Deadline:</h5>
+            <h2>{{todo.deadline_time}}</h2>
+            <hr>
+            
+            {% if todo.status %}
+            <label class="badge badge-success">Completed</label>
+            {% else %}
+            <label class="badge badge-danger">Pending</label>
+            {% endif %}
+            <hr>
+
+            <center>
+              <form action="{% url 'handle_todo_done'  todo.id %}" method="post">
+              {% csrf_token %}
+                
+                {% if todo.status %}
+                  <button class="btn btn-success" type="submit">Mark as Pending</button>
+                {% else %}
+                  <button class="btn btn-danger" type="submit">Mark as Completed</button>
+                {% endif %}
+                
+              </form>
+            </center>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+{% endblock content %}
