@@ -53,9 +53,16 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'health' %}">
+          <a class="nav-link" href="{% url 'food' %}">
+            <i class="mdi mdi-food menu-icon"></i>
+            <span class="menu-title">Food</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'meditation' %}">
             <i class="mdi mdi-heart-pulse menu-icon"></i>
-            <span class="menu-title">Health</span>
+            <span class="menu-title">Meditation</span>
           </a>
         </li>
 
@@ -72,16 +79,31 @@
             <span class="menu-title">Background sounds</span>
           </a>
         </li>
+    
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'play_games' %}">
+            <i class="mdi mdi-google-controller menu-icon"></i>
+            <span class="menu-title">Games</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'music' %}">
+            <i class="mdi mdi-music menu-icon"></i>
+            <span class="menu-title">Music</span>
+          </a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'journal' %}">
             <i class="mdi mdi-book menu-icon"></i>
             <span class="menu-title">Journal</span>
           </a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'play_games' %}">
-            <i class="mdi mdi-google-controller menu-icon"></i>
-            <span class="menu-title">Games</span>
+          <a class="nav-link" href="{% url 'charts' %}">
+            <i class="mdi mdi-chart-line menu-icon"></i>
+            <span class="menu-title">Report</span>
           </a>
         </li>
 
@@ -203,6 +225,8 @@
   <!-- Custom js for this page -->
   <script src="{% static 'assets/js/dashboard.js' %}"></script>
   <!-- End custom js for this page -->
+
+
 </body>
 
 </html>

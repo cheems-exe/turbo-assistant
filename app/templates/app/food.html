@@ -1,0 +1,73 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Food{% endblock %}
+
+{% block content%}
+<div class="form-group">
+    
+    <form method="post" action="{% url 'food' %}">
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="spice" class="col-sm-3 col-form-label">Spice Level</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="spice" name="spice" placeholder="1-10" />
+            </div>
+          </div>
+
+          <div class="form row">
+            <label class="col-sm-3 col-form-label">Preference</label>
+            <div class="col-sm-3">
+              <div class="">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="pref" id="pref1" value="2" /> Non Veg </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="pref" id="pref2" value="1" checked /> Veg </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="pref" id="pref3" value="0" /> Jain </label>
+              </div>
+            </div>
+          </div>
+
+
+        <label>Select fav food</label>
+        <select class="js-example-basic-multiple" multiple="multiple" style="width: 50%; height:15rem;" name="food">
+        {% for food in food_list%}
+            <option value={{ forloop.counter0 }}>{{food}}</option>
+        {% endfor %}
+        </select>
+        <br>
+        
+        <button class="btn btn-primary" type="submit" >Submit</button>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h2>Food recomendations:</h2>
+          <div class="row">
+            {% for food in r_food %}
+                <div class="col-xl-4 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title text-black">{{food.name}}</h4>
+                    </div>
+                </div>
+               </div>
+               {% endfor %}
+            </div>
+        </div>
+     </div>
+    </div>
+</div>
+
+{% endblock content %}

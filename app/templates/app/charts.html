@@ -1,0 +1,155 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Report{% endblock %}
+
+{% block content%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h1>Report/Progress</h1>
+
+<div class="row">
+    <div class="col-xl-3"></div>
+    <div class="col-xl-4 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title text-black">Pomodoro cycles / day</h4>
+          <div>
+            <div style="height: 20rem;">
+              <canvas id="pompdoro_dictChart" width="400" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3"></div>
+  
+  <div class="col-xl-3"></div>
+  <div class="col-xl-4 col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-black">#activities / day</h4>
+          <div>
+            <div style="height: 20rem;">
+              <canvas id="slotChart" width="400" height="400"></canvas>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3"></div>
+  
+  <div class="col-xl-3"></div>
+  <div class="col-xl-4 col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-black">Journal rating / day</h4>
+        <div>
+          <div style="height: 20rem;">
+            <canvas id="myChart" width="400" height="400"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3"></div>
+    </div>
+
+  <script>
+    
+    var xValues = ["09-27", "09-28", "09-29", "09-30", "10-01", "10-02", "10-03"];
+    
+    // new Chart("myChart", {
+    //   type: "line",
+    //   data: {
+    //     labels: xValues,
+    //     datasets: [{ 
+    //       data: [0, 0, 3, 1, 2, 1, 0],
+    //       borderColor: "red",
+    //       fill: false
+    //     }, { 
+    //       data: [5, 7, 3, 1, 2, 1, 0],
+    //       borderColor: "green",
+    //       fill: false
+    //     }, { 
+    //       data: [0, 2, 3, 1, 2, 1, 5],
+    //       borderColor: "blue",
+    //       fill: false
+    //     }]
+    //   },
+    //   options: {
+    //     legend: {display: false}
+    //   }
+    // });
+
+    console.log("hahaha")
+    const journal_dict = JSON.parse("{{ journal_dict | escapejs }}");
+    const activity_dict = JSON.parse("{{ activity_dict | escapejs }}");
+    const pompdoro_dict = JSON.parse("{{ pompdoro_dict | escapejs }}");
+      console.log(journal_dict, activity_dict);
+      new Chart("myChart", {
+        type: "line",
+        data: {
+          labels: journal_dict['date'],
+          datasets: [{ 
+            label: 'popular day',
+            data: journal_dict['data'],
+            borderColor: "#50BFE6",
+            fill: false
+          }]
+        },
+        options: {
+          legend: {display: false}
+        }
+      });
+      new Chart("slotChart", {
+        type: "line",
+        data: {
+          labels: activity_dict['date'],
+          datasets: [{ 
+            label: 'popular slot',
+            data: activity_dict['data'],
+            borderColor: "#CCFF00",
+            fill: false
+          }]
+        },
+        options: {
+          legend: {display: false}
+        }
+      });
+
+      new Chart("pompdoro_dictChart", {
+        type: "line",
+        data: {
+          labels: pompdoro_dict['date'],
+          datasets: [{ 
+            label: 'pompdoro_dict data',
+            data: pompdoro_dict['data'],
+            borderColor: "pink",
+            fill: false
+          }]
+        },
+        options: {
+          legend: {display: false}
+        }
+      });
+
+    // // api url
+    // const api_url = 
+    //       "http://127.0.0.1:8000/journal_dict";
+      
+    // // Defining async function
+    // async function getapi(url) {
+        
+    //     // Storing response
+    //     const response = await fetch(url);
+        
+    //     // Storing data in form of JSON
+    //     var data = await response.json();
+    //     console.log(data);
+    // }
+    // // Calling that async function
+    // getapi(api_url);
+
+    </script>
+
+{% endblock content %}

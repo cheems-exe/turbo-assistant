@@ -1,0 +1,56 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Games{% endblock %}
+
+{% block content%}
+<h3>Congrats on working so hard! </h3>
+<h6>We want you to consider taking a break </h6>
+
+<hr>
+
+<h2> We encorage you to take a 5 minute walk 🚶</h2>
+<h4> It will increase you blood circulation and make you ready for the next session!</h4>
+
+<hr>
+<hr>
+<div class="row p-3">
+
+
+    <div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+        <div class="card bg-primary"
+            style="background-image: linear-gradient(45deg,var(--cui-primary-start,#321fdb) 0%,var(--cui-primary-stop,#1f1498 100%));">
+            <div class="card-body px-3 py-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="color-card">
+                        <p class="mb-0 color-card-head">Songs</p><br>
+                        <h2 class="text-white">Play me some tunes 🎺<span class="h5"></span>
+                        </h2>
+                    </div>
+                    <i class="card-icon-indicator mdi mdi-music" style="background-color: rgb(120, 190, 252);"></i>
+                </div>
+                <a class="text-white" href="{%url 'music'%}" target="_blank">Play!</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+        <div class="card bg-primary"
+            style="background-image: linear-gradient(45deg,var(--cui-primary-start,#321fdb) 0%,var(--cui-primary-stop,#1f1498 100%));">
+            <div class="card-body px-3 py-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="color-card">
+                        <p class="mb-0 color-card-head">Food</p><br>
+                        <h2 class="text-white">Get me some snacks🥡<span class="h5"></span>
+                        </h2>
+                    </div>
+                    <i class="card-icon-indicator mdi mdi-food" style="background-color: rgb(120, 190, 252);"></i>
+                </div>
+                <a class="text-white" href="{%url 'food'%}" target="_blank">Play!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<hr>
+     
+     <a class="btn btn-primary" href="{%url 'pomodoro'%}" target="_blank">I would like to contiue with pomodoro</a>
+{% endblock content %}

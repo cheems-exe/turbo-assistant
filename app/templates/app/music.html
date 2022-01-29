@@ -1,0 +1,32 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Games{% endblock %}
+
+{% block content%}
+<div class="row p-3">
+
+
+	{%for cat_song,cat in test %}
+		<!-- <iframe width="420" height="315"
+		src= "{{i}}" >
+		</iframe> -->
+
+		<div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+			<div class="card bg-primary"
+				style="background-image: linear-gradient(45deg,var(--cui-primary-start,#006666) 0%,var(--cui-primary-stop,#00CCCD 100%));">
+				<div class="card-body px-3 py-4">
+					<div class="d-flex justify-content-between align-items-start">
+						<div class="color-card">
+							<p class="mb-0 color-card-head">Songs</p><br>
+							<h2 class="text-white">{{cat}} 🎶<span class="h5"></span>
+							</h2>
+						</div>
+						<i class="card-icon-indicator mdi mdi-music" style="background-color: rgb(120, 190, 252);"></i>
+					</div>
+					<a class="text-white" href="{{cat_song}}" target="_blank">Play!</a>
+				</div>
+			</div>
+		</div>
+	{%endfor%}
+</div>
+{% endblock content %}

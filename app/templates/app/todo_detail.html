@@ -41,9 +41,9 @@
               {% csrf_token %}
                 
                 {% if todo.status %}
-                  <button class="btn btn-success" type="submit">Mark as Pending</button>
+                  <button class="btn btn-danger" type="submit">Mark as Pending</button>
                 {% else %}
-                  <button class="btn btn-danger" type="submit">Mark as Completed</button>
+                  <button class="btn btn-success" type="submit">Mark as Completed</button>
                 {% endif %}
                 
               </form>

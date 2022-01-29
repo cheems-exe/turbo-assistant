@@ -23,8 +23,16 @@ urlpatterns = [
     path('break_session/', break_session, name="break_session"),
     path('relaxing_sounds/', relaxing_sounds, name="relaxing_sounds"),
     path('play_games/', play_games, name="play_games"),
+    path('charts/', charts, name="charts"),
+
+    path('food/', food, name="food"),
+    path('music/', music, name="music"),
     
     path('logout/', signout, name="logout"),
     path('login/', login_user, name="login"),
     path('signup/', signup, name="signup"),
+
+    path("food/", food, name="food"),
+
+    path("break_page/", break_page, name="break_page"),
 ]
