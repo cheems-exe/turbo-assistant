@@ -1,0 +1,121 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Journal {% endblock %}
+
+
+{% block content%}
+  <div class="row">
+
+    <div class="col-xl-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Add Todays Feedback</h4>
+        <form action="{% url 'journal' %}" method="POST">
+          {% csrf_token %}
+         Description<br>
+          <p><textarea class="form-control" name="day_description" id="day_description" cols="30" rows="10" placeholder="Your todo description"></textarea></p>
+          
+          <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Rating</label>
+            <div class="col-sm-1">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="day_rating" id="day_rating1" value="1" checked /> 1 </label>
+              </div>
+            </div>
+            <div class="col-sm-1">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="day_rating" id="day_rating2" value="2" /> 2 </label>
+              </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="3" /> 3 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="4" /> 4 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="5" /> 5 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="6" /> 6 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="7" /> 7 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="8" /> 8 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="9" /> 9 </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="day_rating" id="day_rating3" value="10" /> 10 </label>
+                </div>
+            </div>
+            
+                                
+          </div>
+          
+
+          <input  class="form-control btn btn-primary mr-2" type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+  </div>
+  </div>
+    
+    <div class="col-xl-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Previous Journal Entries</h4>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for journal in journals %}
+                <tr>
+                  <td><a href="{% url 'detailed_journal' journal.id %}">{{ journal.date }}</a></td>
+                  <td><label class="badge badge-success">{{ journal.day_rating }} ⭐</label></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+   
+        </div>
+        </div>
+        </div>
+        
+        </div>
+
+{% endblock content %}

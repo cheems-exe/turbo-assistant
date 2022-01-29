@@ -1,0 +1,34 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Journal {% endblock %}
+
+
+
+{% block content%}
+  <div class="row">
+    <div class="col-xl-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h2>TODO # {{journal.id}}</h2>
+
+          <div class="table-responsive">
+                        
+            <h5>Date:</h5>
+            <h1>{{journal.date}}</h1>
+            <hr>
+            
+
+            <h5>Description:</h5>
+            <h3>{{journal.day_description}}</h3>
+            <hr>
+
+            <h5>Rating:</h5>
+            <h2>{% for i in range %}⭐{%endfor%}</h2>
+            <hr>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+{% endblock content %}

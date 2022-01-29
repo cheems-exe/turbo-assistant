@@ -29,30 +29,23 @@
         </div>
         <ul class="nav">
           <li class="nav-item nav-profile">
-            <a href="/" class="nav-link">
-              <div class="nav-profile-image">
-                <img src="{% static 'assets/images/loginusers.png' %}" alt="profile" />
-                <span class="login-status online"></span>
+            <a class="nav-link">
+                
                 <!--change to offline or busy as needed-->
-              </div>
-              <div class="nav-profile-text d-flex flex-column pr-3">
-                <span class="font-weight-medium mb-2">{{user.first_name}} {{user.last_name}}</span>
-                <span class="font-weight-normal"> C-72 / 002</span>
-              </div>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/dashboard/">
+            <a class="nav-link" href="{% url 'todo' %}">
               <i class="mdi mdi-home menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
+              <span class="menu-title">Home</span>
             </a>
           </li>
           
          
           <li class="nav-item">
-            <a class="nav-link" href="/paymentgateway/">
-              <i class="mdi mdi-cash-multiple menu-icon"></i>
-              <span class="menu-title">Maintenance Manager</span>
+            <a class="nav-link" href="{% url 'health' %}">
+              <i class="mdi mdi-heart-pulse menu-icon"></i>
+              <span class="menu-title">Health</span>
             </a>
           </li>
           <li class="nav-item">
@@ -62,9 +55,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/notice/">
+            <a class="nav-link" href="{% url 'journal' %}">
               <i class="mdi mdi-clipboard-outline menu-icon"></i>
-              <span class="menu-title">Notice Board</span>
+              <span class="menu-title">Journal</span>
             </a>
           </li>
           <li class="nav-item">
@@ -82,9 +75,6 @@
           <li class="nav-item sidebar-actions">
             <div class="nav-link">
               <div class="mt-4">
-                <div class="border-none">
-                  <p class="text-black">Notification</p>
-                </div>
                 <ul class="mt-4 pl-0">
                   <li><a href="/logout/">Sign Out</a></li>
                 </ul>

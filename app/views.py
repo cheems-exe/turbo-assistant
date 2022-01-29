@@ -1,6 +1,7 @@
 # from django.http import HttpResponse
 import datetime
 import json
+from django.contrib import messages
 
 from django.contrib.auth.models import User
 # push notif
@@ -10,8 +11,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 
-from .models import *
 
+from django.contrib.auth.models import User
+from .models import *
+from django.contrib.auth import authenticate,login,logout
 
 # @require_GET
 # def home2(request):
@@ -38,7 +41,7 @@ from .models import *
 #
 #
 # def list_todo(request):
-#     todos = Todo.objects.all()
+#     journal = Todo.objects.all()
 #
 #
 # def create_todo(request):
@@ -51,6 +54,46 @@ from .models import *
 #
 #
 # # Create your views here.
+
+def loginn(request):
+    # return render(request, 'epapp/login.html')
+    if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        print(username,password)
+        user=authenticate(username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('/')
+        else:
+            messages.error(request,"Wrong credentials,Please try again !")
+            return redirect('/login/')
+    else:
+        return render(request, 'app/login.html')
+
+def signup(request):
+    if request.method == 'POST':
+        name = request.POST.get('fullname')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        # isteacher = request.POST.get('isteacher')
+        password = request.POST.get('password')
+        # print(name,password,username,phnumber,isteacher, email=email)
+        try:
+            User.objects.create_user(username=username, password=password, email=email).save()
+            # user_details = ModiUser(user=user2,phno=phnumber,teacher=isteacher=='teacher')
+            # user_details.save()
+            
+        except Exception as e:
+            messages.error(request,e)
+        return redirect('/login/')
+
+def signout(request):
+	logout(request)
+	messages.success(request,'Successfully logged out')
+	return redirect('/login/')
+
+
 def home(request):
     if request.method == "GET":
         print("HERE")
@@ -62,17 +105,13 @@ def journal(request):
     if request.method == "GET":
         journal_objects = JournalPage.objects.filter(user=request.user).order_by('date')
 
-        print("------HERE------")
-        for obj in journal_objects:
-            print(obj.day_description, obj.date)
-        print("------HERE------")
-
-        return redirect("home")
+        return render(request, "app/journal_list.html", {"journals": journal_objects})
 
     elif request.method == "POST":
         todays_entry = JournalPage.objects.filter(user=request.user, date=datetime.datetime.today())
         if todays_entry:
-            print("ALready entered todays data MF")
+            messages.error(request, "Already entered today's data")
+            return redirect("journal")
 
         else:
             rating = request.POST.get("day_rating")
@@ -85,11 +124,20 @@ def journal(request):
                 day_description=desc)
             todays_entry.save()
 
-            print("Saved bitch")
-            return redirect("home")
+            messages.success(request, "Entered today's data successfully")
+            return redirect("journal")
 
     else:
         raise Http404('No such request')
+
+
+def detailed_journal(request, id):
+    obj = JournalPage.objects.get(id=id)
+    return render(request, "app/journal_detail.html", {"journal": obj, "range": range(obj.day_rating)})
+
+
+def health(request):
+    return render(request, "app/health.html")
 
 
 def meditation(request):
