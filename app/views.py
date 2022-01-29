@@ -1,14 +1,12 @@
-from django.http.response import Http404
 # from django.http import HttpResponse
+import datetime
 import json
 
 from django.contrib.auth.models import User
-from django.http.response import Http404
 # push notif
-from django.http.response import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http.response import Http404, HttpResponse, JsonResponse
 # from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 
@@ -53,12 +51,50 @@ from .models import *
 #
 #
 # # Create your views here.
-# def home(request):
-#     if request.method == "GET":
-#         return render(request, 'app/home.html')
-#     raise Http404('No such request')
-#
-# # djrs
-# # celery -A turbo.celery worker --pool=solo -l info
-# # celery -A turbo beat -l info
-# # pip freeze > requirements.txt
+def home(request):
+    if request.method == "GET":
+        return render(request, 'app/home.html')
+    raise Http404('No such request')
+
+
+def journal(request):
+    if request.method == "GET":
+        journal_objects = JournalPage.objects.filter(user=request.user).order_by('date')
+
+        print("------HERE------")
+        for obj in journal_objects:
+            print(obj.day_description, obj.date)
+        print("------HERE------")
+
+        return redirect("home")
+
+    elif request.method == "POST":
+        todays_entry = JournalPage.objects.filter(user=request.user, date=datetime.datetime.today())
+        if todays_entry:
+            print("ALready entered todays data MF")
+
+        else:
+            rating = request.POST.get("day_rating")
+            desc = request.POST.get("day_description")
+
+            todays_entry = JournalPage(
+                user=request.user,
+                date=datetime.datetime.today(),
+                day_rating=rating,
+                day_description=desc)
+            todays_entry.save()
+
+            print("Saved bitch")
+            return redirect("home")
+
+    else:
+        raise Http404('No such request')
+
+
+def meditation(request):
+    if request.method == 'POST':
+        print(request.POST)
+        activity = Activity(user=request.user, activity_name="MEDITATION", date=datetime.datetime.now())
+        activity.save()
+
+    return render(request, "app/meditation.html")
