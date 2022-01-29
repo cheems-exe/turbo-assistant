@@ -53,6 +53,7 @@ from .models import *
 # # Create your views here.
 def home(request):
     if request.method == "GET":
+        print("HERE")
         return render(request, 'app/home.html')
     raise Http404('No such request')
 

@@ -8,7 +8,8 @@ from .views import *
 from .views_to_dos import *
 
 urlpatterns = [
-    path('todo/', list_todos),
+    path("", views.home, name="home"),
+    path('todo/', list_todos, name="todo"),
     path('todo/<int:pk>/', detailed_todos, name="detailed_todos"),
     path('new_todo', create_todo, name="create_todo"),
     path('edit_todo/<int:id>', edit_todo, name="edit_todo"),
