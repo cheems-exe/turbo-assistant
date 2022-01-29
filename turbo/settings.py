@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-
+from django_jinja.builtins import DEFAULT_EXTENSIONS
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,12 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'app',
-    'django_celery_results',
-    'django_celery_beat',
+    # 'django_celery_results',
+    # 'django_celery_beat',
+    'webpush',
     # 'ckeditor',
     # 'crispy_forms',
 
 ]
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BNnm_VytvISIKpDXhNgJwDFKf9gUnULXJWVKO8Mu1oX0cOBQnVC532aU1rb9RsYEyuNUeBwhoecThMBBh7cBNkM",
+    "VAPID_PRIVATE_KEY":"Er_vjj89H2iTDxDX61xSeQyE8t_1WcwR_yxT8AOVqiA",
+    "VAPID_ADMIN_EMAIL": "admin@example.com"
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,6 +81,17 @@ TEMPLATES = [
         },
     },
 ]
+
+# TEMPLATES = [
+#     {
+#         "BACKEND": "django_jinja.backend.Jinja2",
+#         "OPTIONS": {
+#             "extensions": DEFAULT_EXTENSIONS + [
+#                 "webpush.jinja2.WebPushExtension"
+#             ]
+#         }
+#     }
+# ]
 
 WSGI_APPLICATION = 'turbo.wsgi.application'
 
@@ -143,16 +161,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CELERY SETTINGS
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = "Asia/Kolkata"
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = "Asia/Kolkata"
 
-CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_BACKEND = 'django-db'
 
 #CELERY BEAT
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+# CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # SMTP Settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
