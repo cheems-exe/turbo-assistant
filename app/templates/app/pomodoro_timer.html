@@ -45,19 +45,27 @@
   }
 
   .outerRing {
-    display: grid;
+    /* display: grid;
     place-items: center;
-    width: 515px;
-    height: 515px;
+    width: 25rem;
+    height: 25rem;
     border-radius: 50%;
     box-shadow: -5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15);
+    background: var(--normal-ring); */
+    width: 25rem;
+    height: 25rem;
+    border-radius: 50%;
     background: var(--normal-ring);
+    box-shadow:-5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .timer {
-    width: 400px;
-    height: 400px;
-    margin-top: 40px;
+    width: 20rem;
+    height: 20rem;
     border-radius: 50%;
     background: var(--timer-bg);
     box-shadow: inset 0px 0px 114px rgba(0, 0, 0, 0.45);
@@ -65,11 +73,11 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 8rem;
+    /* padding: 8rem; */
   }
 
   #time {
-    width: 300px;
+    /* width: 3px; */
     text-align: center;
     margin: 3rem 0 0 0;
   }
@@ -78,7 +86,7 @@
     display: inline;
     color: var(--font-clr);
     font-family: var(--font-timer);
-    font-size: 7rem;
+    font-size: 5rem;
     letter-spacing: 0.1em;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
@@ -112,7 +120,7 @@
       <div id="time">
         <span id="minutes">00</span>
         <span id="colon">:</span>
-        <span id="seconds">04</span>
+        <span id="seconds">{{ time }}</span>
       </div>
       <div id="stsp">START</div>
       <span id="setting"><i class="fas fa-cog"></i></span>
@@ -181,11 +189,11 @@
         progressStart = 0;
         console.log("send");
         // goto this link to add the session
-        if ({ is_break }) {
+        if ("{{ is_break }}" === "True") {
           document.location.href = "{% url 'pomodoro' %}";
         }
         else {
-          document.location.href = "{% url 'add_done_session' %}";
+          document.location.href = "{% url 'break_session' %}";
         }
       }
     }

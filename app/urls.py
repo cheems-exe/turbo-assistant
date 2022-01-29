@@ -25,7 +25,7 @@ urlpatterns = [
     path('meditation/', views.meditation, name="meditation"),
     
     path('pomodoro/', start_pomodoro_timer, name="pomodoro"),
-    path('add_done_session/', add_done_sesssion, name="add_done_session"),
+    path('break_session/', break_session, name="break_session"),
     path('relaxing_sounds/', relaxing_sounds, name="relaxing_sounds"),
     path('play_games/', play_games, name="play_games"),
     

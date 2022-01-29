@@ -181,37 +181,24 @@ def handle_todo_done(request,pk):
 
 def start_pomodoro_timer(request):
     context = {
-        'is_break' : False,
+        'is_break' : "False",
+        "time": "10"
     }
+    print("inside start pomodoro")
     return render(request, "app/pomodoro_timer.html",context)
     
 
-
-# def pomodoro_session(request):
-#     today = date.today()
-#     work_obj = WorkEfficiency.objects.filter(Q(user= request.user) & Q(date = today)).first()
-#     if work_obj is None:
-#         work_obj = WorkEfficiency.objects.create(
-#             user = request.user ,
-#             date = today,
-#             pomodoro_cycles = 0,
-#         )
-    
-#     context = {
-#         'pomodoro_session' : work_obj.pomodoro_cycles,
-#     }
-
-#     return render(request, "app/pomodoro_timer.html", context=context)
-
-def add_done_sesssion(request):
+def break_session(request):
+    print("inside break_session")
     today = date.today()
     work_obj = WorkEfficiency.objects.filter(user= request.user, date = today).first()
     context = {
         'is_break' : True,
+        "time": "04"
     }
     if work_obj is None:
         work_obj = WorkEfficiency.objects.create(
-            user = request.user ,
+            user = request.user,
             date = today,
             pomodoro_cycles = 0,
         )

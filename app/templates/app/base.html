@@ -40,11 +40,17 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'todo' %}">
-            <i class="mdi mdi-home menu-icon"></i>
-            <span class="menu-title">Home</span>
+            <i class="mdi mdi-tick menu-icon"></i>
+            <span class="menu-title">To Do</span>
           </a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'pomodoro' %}">
+            <i class="mdi mdi-alarm menu-icon"></i>
+            <span class="menu-title">Pomodoro</span>
+          </a>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'health' %}">
@@ -55,7 +61,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/complaintbox/">
             <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-            <span class="menu-title">Complaint Box</span>
+            <span class="menu-title">nothing</span>
           </a>
         </li>
         <li class="nav-item">
@@ -146,13 +152,7 @@
         </div>
         {% endif %}
         <div class="content-wrapper pb-0">
-          <div class="page-header flex-wrap">
-            <h3 class="mb-0"> Hi {{user.first_name}} {{user.last_name}} , welcome back! </h3>
-            {% if commember %}
-            <a href="/memberdash/"><button type="button" class="btn btn-sm ml-3 btn-success"> Member's Dashboard
-              </button></a>
-            {% endif %}
-          </div>
+          
 
 
 
