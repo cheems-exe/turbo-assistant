@@ -3,13 +3,13 @@
 {% block head_title %}Meditation {% endblock %}
 
 
-{% block extra_head %}  
-  
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
-    @import url("https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap");
+{% block extra_head %}
 
-    /* * {
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap");
+
+  /* * {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -25,40 +25,40 @@
       padding: 0px 30px;
     } */
 
-    .name {
-      font-family: "Grechen Fuemen", cursive;
-      font-size: 80px;
-    }
+  .name {
+    font-family: "Grechen Fuemen", cursive;
+    font-size: 80px;
+  }
 
-    .others {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100px;
-      width: 500px;
-    }
+  .others {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 500px;
+  }
 
-    .others p {
-      margin: 20px;
-      cursor: pointer;
-    }
+  .others p {
+    margin: 20px;
+    cursor: pointer;
+  }
 
-    .wisdom {
-      height: 100%;
-      width: 80%;
-      text-align: right;
-      font-size: 25px;
-    }
+  .wisdom {
+    height: 100%;
+    width: 80%;
+    text-align: right;
+    font-size: 25px;
+  }
 
-    a,
-    a:hover,
-    a:focus,
-    a:active {
-      text-decoration: none;
-      color: inherit;
-    }
+  a,
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
 
-    /* body {
+  /* body {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -78,154 +78,158 @@
       z-index: -1;
     } */
 
-    .aboutt {
-      display: flex;
-      flex-direction: column;
-      width: 60%;
-      font-size: 20px;
-      text-align: center;
-    }
+  .aboutt {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    font-size: 20px;
+    text-align: center;
+  }
 
-    .input {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
-    }
+  .input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
 
-    .input label {
-      text-align: center;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
+  .input label {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
 
-    .input select {
-      border: none;
-      border-radius: 8px;
-      min-width: 300px;
-      font-size: 16px;
-      padding: 8px 4px;
-      background-color: #5BA3D8;
-      color: black;
-    }
+  .input select {
+    border: none;
+    border-radius: 8px;
+    min-width: 300px;
+    font-size: 16px;
+    padding: 8px 4px;
+    background-color: #5BA3D8;
+    color: black;
+  }
 
-    .input select:focus {
-      outline: none;
-    }
+  .input select:focus {
+    outline: none;
+  }
 
-    .circle-wrap {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      margin: 40px;
-    }
+  .circle-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 40px;
+  }
 
-    .circle-outline {
-      width: 300px;
-      height: 300px;
-      background-color: transparent;
-      border-radius: 50%;
-      border: 15px solid #696767;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-        0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    }
+  .circle-outline {
+    width: 300px;
+    height: 300px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 15px solid #696767;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
 
-    .circle-progress {
-      width: 50px;
-      height: 50px;
-      position: absolute;
-      background-color: #5BA3D8;
-      border-radius: 50%;
-      transition: 4s ease all;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-        0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    }
+  .circle-progress {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: #5BA3D8;
+    border-radius: 50%;
+    transition: 4s ease all;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
 
-    .circle-grow {
-      transform: scale(5.3);
-    }
+  .circle-grow {
+    transform: scale(5.3);
+  }
 
-    .breaths {
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 24px;
-    }
+  .breaths {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 24px;
+  }
 
-    .instructions {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+  .instructions {
+    text-align: center;
+    margin-bottom: 25px;
+  }
 
-    button {
-      padding: 8px 20px;
-      border-radius: 8px;
-      background-color: #5BA3D8;
-      color: #000;
-      border: none;
-      transition: 0.3s ease all;
-      cursor: pointer;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-        0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    }
+  button {
+    padding: 8px 20px;
+    border-radius: 8px;
+    background-color: #5BA3D8;
+    color: #000;
+    border: none;
+    transition: 0.3s ease all;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
 
-    input {
-      padding: 8px 20px;
-      border-radius: 8px;
-      background-color: #5BA3D8;
-      color: #000;
-      border: none;
-      transition: 0.3s ease all;
-      cursor: pointer;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-        0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    }
+  input {
+    padding: 8px 20px;
+    border-radius: 8px;
+    background-color: #5BA3D8;
+    color: #000;
+    border: none;
+    transition: 0.3s ease all;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
 
-    button:hover {
-      background-color: #000;
-      color: #5BA3D8;
-    }
+  button:hover {
+    background-color: #000;
+    color: #5BA3D8;
+  }
 
-    .button-inactive {
-      background-color: #969696;
-      pointer-events: none;
-    }
-  </style>
-  
+  .button-inactive {
+    background-color: #969696;
+    pointer-events: none;
+  }
+</style>
+
 {% endblock %}
-  
+
 
 
 {% block content%}
-    <div class="input">
-      <label>Select Breaths</label>
-      <select class="breath-input">
-        <option value="3">3 Breaths</option>
-        <option value="5">5 Breaths</option>
-        <option value="7">7 Breaths</option>
-      </select>
-    </div>
-    <div class="circle-wrap">
-      <div class="circle-outline"></div>
-      <div class="circle-progress"></div>
-    </div>
-    <p class="breaths">
-      Breaths Remaining: <span class="breaths-text">3</span>
-    </p>
-    <p class="instructions">Are you ready to start breathing?</p>
-    <button class="start">Begin!</button>
-    <br/>
-    <br/>
-    <form action="{% url 'meditation' %}" method="POST" id="submit_report">
-      {% csrf_token %}
-      <button id="foobar" class="start button-inactive" type="submit">
-        Send Report
-      </button>
-    </form>
-    <br/>
-    <br/>
+<div class="input">
+  <label>Select Breaths</label>
+  <select class="breath-input">
+    <option value="3">3 Breaths</option>
+    <option value="5">5 Breaths</option>
+    <option value="7">7 Breaths</option>
+    <option value="9">9 Breaths</option>
+    <option value="11">11 Breaths</option>
+    <option value="13">13 Breaths</option>
+    <option value="15">15 Breaths</option>
+  </select>
+</div>
+<div class="circle-wrap">
+  <div class="circle-outline"></div>
+  <div class="circle-progress"></div>
+</div>
+<p class="breaths">
+  Breaths Remaining: <span class="breaths-text">3</span>
+</p>
+<p class="instructions">Are you ready to start breathing?</p>
+<button class="start">Begin!</button>
+<br />
+<br />
+<form action="{% url 'meditation' %}" method="POST" id="submit_report">
+  {% csrf_token %}
+  <button id="foobar" class="start button-inactive" type="submit">
+    Send Report
+  </button>
+</form>
+<br />
+<br />
 {% endblock content %}
-  
+
 {% block extra_scripts %}
 <script>
   const circleProgress = document.querySelector(".circle-progress");
@@ -249,7 +253,7 @@
     circleProgress.classList.add("circle-grow");
     setTimeout(() => {
       circleProgress.classList.remove("circle-grow");
-    }, 2000);
+    }, 8000);
   };
 
   // Breathing Instructions
@@ -261,8 +265,8 @@
       instructions.innerText = "Hold Breath";
       setTimeout(() => {
         instructions.innerText = "Breath out slowly";
-      }, 1000);
-    }, 1000);
+      }, 4000);
+    }, 4000);
   };
 
   // Breathing app function
@@ -281,7 +285,7 @@
         growCircle();
         breathTextUpdate();
       }
-    }, 4000);
+    }, 12000);
   };
 
   // Start Breathing

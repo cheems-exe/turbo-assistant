@@ -1,40 +1,38 @@
-{% extends 'app/base.html' %} 
+{% extends 'app/base.html' %}
 
 {% block content %}
 
 <style>
-    @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&display=swap");
-    
-*,
-*::before,
-*::after {
+  @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&display=swap");
+
+  *,
+  *::before,
+  *::after {
     margin: 0;
     padding: 0;
-  box-sizing: border-box;
-}
+    box-sizing: border-box;
+  }
 
-:root {
-  --bg: #2b2a30;
-  --normal-ring: #17171a;
-  --red-ring: #9d0000;
-  --green-ring: #00aa51;
-  --timer-bg: radial-gradient(
-    71.4% 71.4% at 51.7% 28.6%,
-    #3a393f 0%,
-    #17171a 100%
-    );
+  :root {
+    --bg: #2b2a30;
+    --normal-ring: #17171a;
+    --red-ring: #9d0000;
+    --green-ring: #00aa51;
+    --timer-bg: radial-gradient(71.4% 71.4% at 51.7% 28.6%,
+        #3a393f 0%,
+        #17171a 100%);
     --font-timer: "Bebas Neue", cursive;
     --font-stsp: "Montserrat", sans-serif;
     --font-clr: #ffffff;
-}
+  }
 
-body {
+  body {
     background: var(--bg);
     min-height: 100vh;
     overflow: hidden;
-}
+  }
 
-.container {
+  .container {
     height: 600px;
     width: 600px;
     background-color: transparent;
@@ -44,9 +42,9 @@ body {
     left: 50%;
     display: grid;
     place-items: center;
-}
+  }
 
-.outerRing {
+  .outerRing {
     display: grid;
     place-items: center;
     width: 515px;
@@ -54,221 +52,221 @@ body {
     border-radius: 50%;
     box-shadow: -5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15);
     background: var(--normal-ring);
-}
+  }
 
-.timer {
+  .timer {
     width: 400px;
     height: 400px;
     margin-top: 40px;
     border-radius: 50%;
     background: var(--timer-bg);
     box-shadow: inset 0px 0px 114px rgba(0, 0, 0, 0.45);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 8rem;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 8rem;
+  }
 
-#time {
+  #time {
     width: 300px;
-  text-align: center;
-  margin: 3rem 0 0 0;
-}
+    text-align: center;
+    margin: 3rem 0 0 0;
+  }
 
-#time span {
-  display: inline;
-  color: var(--font-clr);
-  font-family: var(--font-timer);
-  font-size: 7rem;
-  letter-spacing: 0.1em;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-#stsp {
+  #time span {
+    display: inline;
     color: var(--font-clr);
-  cursor: pointer;
-  font-family: Montserrat;
-  font-weight: bold;
-  font-size: 1rem;
-  line-height: 1.25rem;
-  text-align: center;
-  letter-spacing: 0.6em;
-  margin: 1rem 0;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
+    font-family: var(--font-timer);
+    font-size: 7rem;
+    letter-spacing: 0.1em;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
 
-#setting {
-  cursor: pointer;
-  margin-top: 1rem;
-  width: 25px;
-  height: 25px;
-  color: #585858;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
-}
-    </style>
+  #stsp {
+    color: var(--font-clr);
+    cursor: pointer;
+    font-family: Montserrat;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    text-align: center;
+    letter-spacing: 0.6em;
+    margin: 1rem 0;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  #setting {
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 25px;
+    height: 25px;
+    color: #585858;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+  }
+</style>
 
 <div class="container">
-    <div class="outerRing">
-      <div class="timer">
-        <div id="time">
-          <span id="minutes">00</span>
-          <span id="colon">:</span>
-          <span id="seconds">03</span>
-        </div>
-        <div id="stsp">START</div>
-        <span id="setting"><i class="fas fa-cog"></i></span>
+  <div class="outerRing">
+    <div class="timer">
+      <div id="time">
+        <span id="minutes">00</span>
+        <span id="colon">:</span>
+        <span id="seconds">04</span>
+      </div>
+      <div id="stsp">START</div>
+      <span id="setting"><i class="fas fa-cog"></i></span>
     </div>
-    <form action="{% url 'promodoro' %}" method="POST" id="submit_report">
-        {% csrf_token %}
-        <button class="negative" name="cancel" id="post_done_timer" type="submit" style="display:none;">
-            post_done_timer
-        </button>
-      </form>
-</div>
-<!-- <div class="container">
+    <form action="{% url 'pomodoro' %}" method="POST" id="submit_report">
+      {% csrf_token %}
+      <button class="negative" name="cancel" id="post_done_timer" type="submit" style="display:none;">
+        post_done_timer
+      </button>
+    </form>
+  </div>
+  <!-- <div class="container">
     <div id = "stsp">
         {{pomodoro_session}}
     </div>
 </div> -->
 
-<script>
-       const progressBar = document.querySelector(".outerRing"),
-  minElem = document.querySelector("#minutes"),
-  secElem = document.querySelector("#seconds"),
-  startStop = document.querySelector("#stsp"),
-  setting = document.querySelector("#setting");
-  button = document.querySelector("#post_done_timer");
+  <script>
+    const progressBar = document.querySelector(".outerRing"),
+      minElem = document.querySelector("#minutes"),
+      secElem = document.querySelector("#seconds"),
+      startStop = document.querySelector("#stsp"),
+      setting = document.querySelector("#setting");
+    button = document.querySelector("#post_done_timer");
 
-let minutes = document.querySelector("#minutes").innerHTML,
-  seconds = document.querySelector("#seconds").innerHTML,
-  progress = null,
-  progressStart = 0,
-  progressEnd = parseInt(minutes) * 60 + parseInt(seconds),
-  speed = 1000,
-  degTravel = 360 / progressEnd,
-  toggleSettings = false,
-  secRem = 0,
-  minRem = 0;
+    let minutes = document.querySelector("#minutes").innerHTML,
+      seconds = document.querySelector("#seconds").innerHTML,
+      progress = null,
+      progressStart = 0,
+      progressEnd = parseInt(minutes) * 60 + parseInt(seconds),
+      speed = 1000,
+      degTravel = 360 / progressEnd,
+      toggleSettings = false,
+      secRem = 0,
+      minRem = 0;
 
 
 
-let is_break = false;
+    let is_break = false;
 
-if (is_break){
-    minRem = 5;
-}
+    if (is_break) {
+      minRem = 5;
+    }
 
-function progressTrack() {
-    progressStart++;
-    
-    secRem = Math.floor((progressEnd - progressStart) % 60);
-    minRem = Math.floor((progressEnd - progressStart) / 60);
-    
-    secElem.innerHTML = secRem.toString().length == 2 ? secRem : `0${secRem}`;
-  minElem.innerHTML = minRem.toString().length == 2 ? minRem : `0${minRem}`;
+    function progressTrack() {
+      progressStart++;
 
-  progressBar.style.background = `conic-gradient(
+      secRem = Math.floor((progressEnd - progressStart) % 60);
+      minRem = Math.floor((progressEnd - progressStart) / 60);
+
+      secElem.innerHTML = secRem.toString().length == 2 ? secRem : `0${secRem}`;
+      minElem.innerHTML = minRem.toString().length == 2 ? minRem : `0${minRem}`;
+
+      progressBar.style.background = `conic-gradient(
         #9d0000 ${progressStart * degTravel}deg,
         #17171a ${progressStart * degTravel}deg
       )`;
-  if (progressStart == progressEnd) {
-    progressBar.style.background = `conic-gradient(
+      if (progressStart == progressEnd) {
+        progressBar.style.background = `conic-gradient(
         #00aa51 360deg,
         #00aa51 360deg
       )`;
-    clearInterval(progress);
-    startStop.innerHTML = "START";
-    progress = null;
-    progressStart = 0;
-    console.log("send");
-      // goto this link to add the session
-     
-      document.location.href = "http://127.0.0.1:8000/add_done_session/";
-  }
-}
+        clearInterval(progress);
+        startStop.innerHTML = "START";
+        progress = null;
+        progressStart = 0;
+        console.log("send");
+        // goto this link to add the session
+        if ({ is_break }) {
+          document.location.href = "{% url 'pomodoro' %}";
+        }
+        else {
+          document.location.href = "{% url 'add_done_session' %}";
+        }
+      }
+    }
 
-function startStopProgress() {
-  if (!progress) {
-    progress = setInterval(progressTrack, speed);
-  } else {
-    clearInterval(progress);
-    progress = null;
-    progressStart = 0;
-    progressBar.style.background = `conic-gradient(
+    function startStopProgress() {
+      if (!progress) {
+        progress = setInterval(progressTrack, speed);
+      } else {
+        clearInterval(progress);
+        progress = null;
+        progressStart = 0;
+        progressBar.style.background = `conic-gradient(
         #17171a 360deg,
         #17171a 360deg
       )`;
 
-    
-  }
-}
 
-function resetValues() {
-  if (progress) {
-    clearInterval(progress);
-  }
-  minutes = document.querySelector("#minutes").innerHTML;
-  seconds = document.querySelector("#seconds").innerHTML;
+      }
+    }
+
+    function resetValues() {
+      if (progress) {
+        clearInterval(progress);
+      }
+      minutes = document.querySelector("#minutes").innerHTML;
+      seconds = document.querySelector("#seconds").innerHTML;
       toggleSettings = false;
-  minElem.contentEditable = false;
-  minElem.style.borderBottom = `none`;
-  secElem.contentEditable = false;
-  secElem.style.borderBottom = `none`;
-  progress = null;
-  progressStart = 0;
-  progressEnd = parseInt(minutes) * 60 + parseInt(seconds);
-  degTravel = 360 / progressEnd;
-  progressBar.style.background = `conic-gradient(
+      minElem.contentEditable = false;
+      minElem.style.borderBottom = `none`;
+      secElem.contentEditable = false;
+      secElem.style.borderBottom = `none`;
+      progress = null;
+      progressStart = 0;
+      progressEnd = parseInt(minutes) * 60 + parseInt(seconds);
+      degTravel = 360 / progressEnd;
+      progressBar.style.background = `conic-gradient(
         #17171a 360deg,
         #17171a 360deg
       )`;
-}
-startStop.onclick = function () {
-  button = document.getElementById("post_done_timer").innerHTML;
-
-  if (startStop.innerHTML === "START") {
-    if (!(parseInt(minutes) === 0 && parseInt(seconds) === 0)) {
-      startStop.innerHTML = "STOP";
-    startStopProgress();
-} else {
-    alert("Enter the Time Value in your Timer!");
-}
-} else {
-    //   console.log("send");
-    //   // goto this link to add the session
-    //   document.location.href = "http://127.0.0.1:8000/add_done_sesssion/";
-    startStop.innerHTML = "START";
-    startStopProgress();
-  }
-};
-
-
-setting.onclick = function () {
-  if (!toggleSettings) {
-    toggleSettings = true;
-    minElem.contentEditable = true;
-    minElem.style.borderBottom = `1px dashed #ffffff50`;
-    secElem.contentEditable = true;
-    secElem.style.borderBottom = `1px dashed #ffffff50`;
-  } else {
-    resetValues();
-  }
-};
-
-minElem.onblur = function () {
-  resetValues();
-};
-
-secElem.onblur = function () {
-  resetValues();
-};
-
-    </script>
-{% endblock content %}
+    }
+    startStop.onclick = function (e) {
+      button = document.getElementById("post_done_timer").innerHTML;
+      // e.preventDefault()
+      console.log(e)
+      console.log(e.preventDefault())
+      if (startStop.innerHTML === "START") {
+        if (!(parseInt(minutes) === 0 && parseInt(seconds) === 0)) {
+          startStop.innerHTML = "STOP";
+          startStopProgress();
+        } else {
+          alert("Enter the Time Value in your Timer!");
+        }
+      } else {
+        //   console.log("send");
+        //   // goto this link to add the session
+        //   document.location.href = "http://127.0.0.1:8000/add_done_sesssion/";
+        startStop.innerHTML = "START";
+        startStopProgress();
+      }
+    };
 
 
+    setting.onclick = function () {
+      if (!toggleSettings) {
+        toggleSettings = true;
+        minElem.contentEditable = true;
+        minElem.style.borderBottom = `1px dashed #ffffff50`;
+        secElem.contentEditable = true;
+        secElem.style.borderBottom = `1px dashed #ffffff50`;
+      } else {
+        resetValues();
+      }
+    };
 
+    minElem.onblur = function () {
+      resetValues();
+    };
 
+    secElem.onblur = function () {
+      resetValues();
+    };
 
-
+  </script>
+  {% endblock content %}

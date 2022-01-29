@@ -1,0 +1,83 @@
+{% extends "app/base.html" %}
+
+{% block head_title %}Games{% endblock %}
+
+{% block content%}
+<div class="row p-3">
+	<div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+		<div class="card bg-primary"
+			style="background-image: linear-gradient(45deg,var(--cui-primary-start,#321fdb) 0%,var(--cui-primary-stop,#1f1498 100%));">
+			<div class="card-body px-3 py-4">
+				<div class="d-flex justify-content-between align-items-start">
+					<div class="color-card">
+						<p class="mb-0 color-card-head">Games</p><br>
+						<h2 class="text-white">SmashKarts<span class="h5"></span>
+						</h2>
+					</div>
+					<i class="card-icon-indicator mdi mdi-food" style="background-color: rgb(120, 190, 252);"></i>
+				</div>
+				<a class="text-white" href="https://smashkarts.io/">Click Me!</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+		<div class="card bg-success"
+			style="background-image: linear-gradient(45deg,var(--cui-info-start,#39f) 0%,var(--cui-info-stop,#00cccd 100%));">
+			<div class="card-body px-3 py-4">
+				<a href="{% url 'meditation' %}">
+					<div class="d-flex justify-content-between align-items-start">
+						<div class="color-card">
+							<p class="mb-0 color-card-head">Meditation</p><br>
+							<h2 class="text-white">Breathe IN<span class="h5"></span>
+							</h2>
+						</div>
+						<i class="card-icon-indicator mdi mdi-target bg-inverse-icon-primary"
+							style="background-color: #115bbb;"></i>
+					</div>
+					<h6 class="text-white">Breathing exercise</h6>
+					<h6 class="text-white">Improve your health during breaks</h6>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+		<div class="card bg-success"
+			style="background-image: linear-gradient(45deg,var(--cui-info-start,#39f) 0%,var(--cui-info-stop,#00cccd 100%));">
+			<div class="card-body px-3 py-4">
+				<a href="{% url 'meditation' %}">
+					<div class="d-flex justify-content-between align-items-start">
+						<div class="color-card">
+							<p class="mb-0 color-card-head">Meditation</p><br>
+							<h2 class="text-white">Breathe IN<span class="h5"></span>
+							</h2>
+						</div>
+						<i class="card-icon-indicator mdi mdi-target bg-inverse-icon-primary"
+							style="background-color: #115bbb;"></i>
+					</div>
+					<h6 class="text-white">Breathing exercise</h6>
+					<h6 class="text-white">Improve your health during breaks</h6>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-6 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+		<div class="card bg-primary"
+			style="background-image: linear-gradient(45deg,var(--cui-primary-start,#321fdb) 0%,var(--cui-primary-stop,#1f1498 100%));">
+			<div class="card-body px-3 py-4">
+				<div class="d-flex justify-content-between align-items-start">
+					<div class="color-card">
+						<p class="mb-0 color-card-head">Games</p><br>
+						<h2 class="text-white">SmashKarts<span class="h5"></span>
+						</h2>
+					</div>
+					<i class="card-icon-indicator mdi mdi-food" style="background-color: rgb(120, 190, 252);"></i>
+				</div>
+				<a class="text-white" href="https://smashkarts.io/">Click Me!</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

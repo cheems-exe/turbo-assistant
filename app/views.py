@@ -1,61 +1,20 @@
-# from django.http import HttpResponse
+from django.shortcuts import render
+from .models import WorkEfficiency
+from datetime import date
+from django.db.models import Q
+from django.shortcuts import redirect
 import datetime
-import json
 from django.contrib import messages
-
 from django.contrib.auth.models import User
-# push notif
-from django.http.response import Http404, HttpResponse, JsonResponse
-# from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET, require_POST
-
-
+from django.http.response import Http404
+from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth import authenticate,login,logout
 
-# @require_GET
-# def home2(request):
-#     return HttpResponse('<h1>Home Page<h1>')
-#
-#
-# @require_POST
-# @csrf_exempt
-# def send_push(request):
-#     try:
-#         body = request.body
-#         data = json.loads(body)
-#
-#         if 'head' not in data or 'body' not in data or 'id' not in data:
-#             return JsonResponse(status=400, data={"message": "Invalid data format"})
-#
-#         user_id = data['id']
-#         user = get_object_or_404(User, pk=user_id)
-#         payload = {'head': data['head'], 'body': data['body']}
-#
-#         return JsonResponse(status=200, data={"message": "Web push successful"})
-#     except TypeError:
-#         return JsonResponse(status=500, data={"message": "An error occurred"})
-#
-#
-# def list_todo(request):
-#     journal = Todo.objects.all()
-#
-#
-# def create_todo(request):
-#     if request.method == "POST":
-#         title = request.POST['title']
-#         description = request.POST['description']
-#         user = request.user
-#         deadline_time = request.POST['deadline']
-#         priority = request.POST['priority']
-#
-#
-# # Create your views here.
 
-def loginn(request):
+def login_user(request):
     # return render(request, 'epapp/login.html')
     if request.method=="POST":
         username=request.POST.get('username')
@@ -76,17 +35,22 @@ def signup(request):
         name = request.POST.get('fullname')
         username = request.POST.get('username')
         email = request.POST.get('email')
-        # isteacher = request.POST.get('isteacher')
         password = request.POST.get('password')
-        # print(name,password,username,phnumber,isteacher, email=email)
         try:
-            User.objects.create_user(username=username, password=password, email=email).save()
-            # user_details = ModiUser(user=user2,phno=phnumber,teacher=isteacher=='teacher')
-            # user_details.save()
-            
+            name = name.split(' ')
+            user = User.objects.create_user(username, email, password)
+            # user.save()
+            user.first_name=name[0]
+            try:
+                user.last_name=name[1]
+            except:
+                user.last_name=''
+            user.save()
         except Exception as e:
             messages.error(request,e)
         return redirect('/login/')
+    else:
+        return render(request, 'app/signup.html')
 
 def signout(request):
 	logout(request)
@@ -96,7 +60,6 @@ def signout(request):
 
 def home(request):
     if request.method == "GET":
-        print("HERE")
         return render(request, 'app/home.html')
     raise Http404('No such request')
 
@@ -151,3 +114,113 @@ def meditation(request):
 
 def relaxing_sounds(request):
     return render(request, "app/relaxing_sounds.html")
+
+
+@login_required
+def list_todos(request):
+    if request.method == "GET":
+        """
+            
+        """
+        todos = Todo.objects.filter(user = request.user)
+        context = {
+            'todos': todos
+        }
+        return render(request, "app/todo.html", context)
+    
+
+def detailed_todos(request,pk):
+    cur_todo = Todo.objects.get(pk = pk)
+    context = {
+        'todo': cur_todo
+    }
+    return render(request, "app/todo_detail.html", context)
+
+def create_todo(request):
+    if request.method == "POST":
+        new_todo = Todo.objects.create(
+            title = request.POST.get('todo_title'),
+            user =  request.user,
+            description = request.POST.get('todo_description'),
+            deadline_time = request.POST.get('todo_deadline'),
+            priority = request.POST.get('todo_priority'),
+            status =0,
+        )
+        new_todo.save()
+    return redirect("/todo")
+
+def edit_todo(request, id):
+    new_todo = Todo.objects.get(id=id)
+    if request.method == "GET":
+        context = {
+            'todo': new_todo
+        }
+        return render(request, "app/todo_edit.html", context)
+
+    elif request.method == "POST":
+        new_todo.title = request.POST.get('todo_title'),
+        new_todo.user =  request.user,
+        new_todo.description = request.POST.get('todo_description'),
+        new_todo.deadline_time = request.POST.get('todo_deadline'),
+        new_todo.priority = request.POST.get('todo_priority'),
+        # new_todo.status = request.POST.get('todo_priority'),
+        new_todo.save()
+        return redirect("/todo_detail/"+str(id))
+
+
+def handle_todo_done(request,pk):
+
+    if request.method == "POST":
+        todo_id = pk
+        cur_todo = Todo.objects.get(id = todo_id)
+        cur_todo.status = 1 if cur_todo.status == 0 else 0
+        cur_todo.save()
+    return redirect("/todo")
+
+
+
+def start_pomodoro_timer(request):
+    context = {
+        'is_break' : False,
+    }
+    return render(request, "app/pomodoro_timer.html",context)
+    
+
+
+# def pomodoro_session(request):
+#     today = date.today()
+#     work_obj = WorkEfficiency.objects.filter(Q(user= request.user) & Q(date = today)).first()
+#     if work_obj is None:
+#         work_obj = WorkEfficiency.objects.create(
+#             user = request.user ,
+#             date = today,
+#             pomodoro_cycles = 0,
+#         )
+    
+#     context = {
+#         'pomodoro_session' : work_obj.pomodoro_cycles,
+#     }
+
+#     return render(request, "app/pomodoro_timer.html", context=context)
+
+def add_done_sesssion(request):
+    today = date.today()
+    work_obj = WorkEfficiency.objects.filter(user= request.user, date = today).first()
+    context = {
+        'is_break' : True,
+    }
+    if work_obj is None:
+        work_obj = WorkEfficiency.objects.create(
+            user = request.user ,
+            date = today,
+            pomodoro_cycles = 0,
+        )
+
+    work_obj.pomodoro_cycles += 1
+    work_obj.save()
+    # return redirect("/pomodoro")
+    return render(request, "app/pomodoro_timer.html",context)
+
+
+def play_games(reqest):
+    return render(reqest, "app/play_games.html")
