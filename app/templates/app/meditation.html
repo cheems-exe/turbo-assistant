@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Meditation App</title>
-  </head>
+{% extends "app/base.html" %}
 
+{% block head_title %}Meditation {% endblock %}
+
+
+{% block extra_head %}  
+  
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
     @import url("https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap");
 
-    * {
+    /* * {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -23,7 +23,7 @@
       top: 20px;
       justify-content: space-between;
       padding: 0px 30px;
-    }
+    } */
 
     .name {
       font-family: "Grechen Fuemen", cursive;
@@ -58,7 +58,7 @@
       color: inherit;
     }
 
-    body {
+    /* body {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -76,7 +76,7 @@
       width: 100%;
       background-color: rgba(0, 0, 0, 0.4);
       z-index: -1;
-    }
+    } */
 
     .aboutt {
       display: flex;
@@ -104,7 +104,7 @@
       min-width: 300px;
       font-size: 16px;
       padding: 8px 4px;
-      background-color: #f4bb44;
+      background-color: #5BA3D8;
       color: black;
     }
 
@@ -126,7 +126,7 @@
       height: 300px;
       background-color: transparent;
       border-radius: 50%;
-      border: 15px solid #f1f1f1;
+      border: 15px solid #696767;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
         0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
@@ -135,7 +135,7 @@
       width: 50px;
       height: 50px;
       position: absolute;
-      background-color: #f4bb44;
+      background-color: #5BA3D8;
       border-radius: 50%;
       transition: 4s ease all;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
@@ -160,7 +160,7 @@
     button {
       padding: 8px 20px;
       border-radius: 8px;
-      background-color: #f4bb44;
+      background-color: #5BA3D8;
       color: #000;
       border: none;
       transition: 0.3s ease all;
@@ -172,7 +172,7 @@
     input {
       padding: 8px 20px;
       border-radius: 8px;
-      background-color: #f4bb44;
+      background-color: #5BA3D8;
       color: #000;
       border: none;
       transition: 0.3s ease all;
@@ -183,7 +183,7 @@
 
     button:hover {
       background-color: #000;
-      color: #f4bb44;
+      color: #5BA3D8;
     }
 
     .button-inactive {
@@ -191,11 +191,12 @@
       pointer-events: none;
     }
   </style>
+  
+{% endblock %}
+  
 
-  <body>
-    <div class="navbar">
-      <h1 class="name">Zuko</h1>
-    </div>
+
+{% block content%}
     <div class="input">
       <label>Select Breaths</label>
       <select class="breath-input">
@@ -213,83 +214,88 @@
     </p>
     <p class="instructions">Are you ready to start breathing?</p>
     <button class="start">Begin!</button>
-    <br />
+    <br/>
+    <br/>
     <form action="{% url 'meditation' %}" method="POST" id="submit_report">
       {% csrf_token %}
       <button id="foobar" class="start button-inactive" type="submit">
         Send Report
       </button>
     </form>
-  </body>
-  <script>
-    const circleProgress = document.querySelector(".circle-progress");
-    const numberOfBreaths = document.querySelector(".breath-input");
-    const start = document.querySelector(".start");
-    const instructions = document.querySelector(".instructions");
-    const breathText = document.querySelector(".breaths-text");
-    const x = document.getElementById("submit_report");
-    const y = document.getElementById("foobar");
+    <br/>
+    <br/>
+{% endblock content %}
+  
+{% block extra_scripts %}
+<script>
+  const circleProgress = document.querySelector(".circle-progress");
+  const numberOfBreaths = document.querySelector(".breath-input");
+  const start = document.querySelector(".start");
+  const instructions = document.querySelector(".instructions");
+  const breathText = document.querySelector(".breaths-text");
+  const x = document.getElementById("submit_report");
+  const y = document.getElementById("foobar");
 
-    let breathsLeft = 3;
+  let breathsLeft = 3;
 
-    // Watching for selected breaths from the user
-    numberOfBreaths.addEventListener("change", () => {
-      breathsLeft = numberOfBreaths.value;
-      breathText.innerHTML = breathsLeft;
-    });
+  // Watching for selected breaths from the user
+  numberOfBreaths.addEventListener("change", () => {
+    breathsLeft = numberOfBreaths.value;
+    breathText.innerHTML = breathsLeft;
+  });
 
-    // Grow and shrink of the inner circle
-    const growCircle = () => {
-      circleProgress.classList.add("circle-grow");
+  // Grow and shrink of the inner circle
+  const growCircle = () => {
+    circleProgress.classList.add("circle-grow");
+    setTimeout(() => {
+      circleProgress.classList.remove("circle-grow");
+    }, 2000);
+  };
+
+  // Breathing Instructions
+  const breathTextUpdate = () => {
+    breathsLeft--;
+    breathText.innerHTML = breathsLeft;
+    instructions.innerText = "Breath in";
+    setTimeout(() => {
+      instructions.innerText = "Hold Breath";
       setTimeout(() => {
-        circleProgress.classList.remove("circle-grow");
-      }, 2000);
-    };
-
-    // Breathing Instructions
-    const breathTextUpdate = () => {
-      breathsLeft--;
-      breathText.innerHTML = breathsLeft;
-      instructions.innerText = "Breath in";
-      setTimeout(() => {
-        instructions.innerText = "Hold Breath";
-        setTimeout(() => {
-          instructions.innerText = "Breath out slowly";
-        }, 1000);
+        instructions.innerText = "Breath out slowly";
       }, 1000);
-    };
+    }, 1000);
+  };
 
-    // Breathing app function
-    const breathingApp = () => {
-      const breathingAnimations = setInterval(() => {
-        if (breathsLeft === 0) {
-          y.classList.remove("button-inactive");
-          clearInterval(breathingAnimations);
-          instructions.innerText =
-            "Breathing session completed. Click 'Begin' to start another session!";
-          start.classList.remove("button-inactive");
-          breathsLeft = numberOfBreaths.value;
-          breathText.innerHTML = breathsLeft;
-          return;
-        } else {
-          growCircle();
-          breathTextUpdate();
-        }
-      }, 4000);
-    };
+  // Breathing app function
+  const breathingApp = () => {
+    const breathingAnimations = setInterval(() => {
+      if (breathsLeft === 0) {
+        y.classList.remove("button-inactive");
+        clearInterval(breathingAnimations);
+        instructions.innerText =
+          "Breathing session completed. Click 'Begin' to start another session!";
+        start.classList.remove("button-inactive");
+        breathsLeft = numberOfBreaths.value;
+        breathText.innerHTML = breathsLeft;
+        return;
+      } else {
+        growCircle();
+        breathTextUpdate();
+      }
+    }, 4000);
+  };
 
-    // Start Breathing
-    start.addEventListener("click", () => {
-      instructions.innerText = "Relax and get yourself ready for breathing";
+  // Start Breathing
+  start.addEventListener("click", () => {
+    instructions.innerText = "Relax and get yourself ready for breathing";
+    setTimeout(() => {
+      instructions.innerText = "Breathing about to begin...";
       setTimeout(() => {
-        instructions.innerText = "Breathing about to begin...";
-        setTimeout(() => {
-          growCircle();
-          breathTextUpdate();
-          breathingApp();
-          start.classList.add("button-inactive");
-        }, 2000);
+        growCircle();
+        breathTextUpdate();
+        breathingApp();
+        start.classList.add("button-inactive");
       }, 2000);
-    });
-  </script>
-</html>
+    }, 2000);
+  });
+</script>
+{% endblock extra_scripts %}
