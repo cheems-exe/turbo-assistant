@@ -9,7 +9,7 @@ from django.urls import path, include
 from .views import *
 
 urlpatterns = [
-    # path('', views.home, name='home'),
+    path('', views.home, name='home'),
     # url(r'^webpush/', include('app.urls'))
 
     # webpush

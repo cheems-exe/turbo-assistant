@@ -3,7 +3,9 @@ import zipfile
 import torchaudio
 from glob import glob
 import os
+
 from django.http.response import HttpResponse
+from django.shortcuts import render
 from django.http.response import JsonResponse
 
 def text_summarizer(text):
@@ -17,6 +19,8 @@ def speech_to_text(request):
         (read_batch, split_into_batches, read_audio, prepare_model_input) = utils
         
         os.save()
+        
+        print(request.FILES, request.FILE['sound'])
         
         test_file = glob(request.FILES['sound'])  # path/name of the audio file should be there!
         
@@ -34,4 +38,4 @@ def speech_to_text(request):
         return JsonResponse({"summarized_text": summarized_text})
     
     else:
-        pass
+        return render(request, )
