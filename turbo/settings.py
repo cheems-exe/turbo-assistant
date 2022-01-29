@@ -12,10 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-from django_jinja.builtins import DEFAULT_EXTENSIONS
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -27,7 +26,6 @@ SECRET_KEY = 'django-insecure-#*fb1brwqkd_banf)h)4thc^dbgl=1s_y75!#^ff!-9mvzq=h*
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -42,7 +40,6 @@ INSTALLED_APPS = [
     'app',
     # 'django_celery_results',
     # 'django_celery_beat',
-    'webpush',
     # 'ckeditor',
     # 'crispy_forms',
 
@@ -50,7 +47,7 @@ INSTALLED_APPS = [
 
 WEBPUSH_SETTINGS = {
     "VAPID_PUBLIC_KEY": "BNnm_VytvISIKpDXhNgJwDFKf9gUnULXJWVKO8Mu1oX0cOBQnVC532aU1rb9RsYEyuNUeBwhoecThMBBh7cBNkM",
-    "VAPID_PRIVATE_KEY":"Er_vjj89H2iTDxDX61xSeQyE8t_1WcwR_yxT8AOVqiA",
+    "VAPID_PRIVATE_KEY": "Er_vjj89H2iTDxDX61xSeQyE8t_1WcwR_yxT8AOVqiA",
     "VAPID_ADMIN_EMAIL": "admin@example.com"
 }
 
@@ -95,7 +92,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'turbo.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -105,7 +101,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,7 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -139,7 +133,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -148,16 +141,12 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-
 LOGIN_URL = '/login/'
-
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # CELERY SETTINGS
 
@@ -169,7 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CELERY_RESULT_BACKEND = 'django-db'
 
-#CELERY BEAT
+# CELERY BEAT
 # CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # SMTP Settings
@@ -178,10 +167,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('djemail')
-EMAIL_HOST_PASSWORD =  os.environ.get('djpassword')
+EMAIL_HOST_PASSWORD = os.environ.get('djpassword')
 DEFAULT_FROM_EMAIL = 'TURBO Assistant <noreply.adwait@gmail.com>'
-
-
 
 # celery -A turbo.celery worker --pool=solo -l info
 # celery -A turbo beat -l info
