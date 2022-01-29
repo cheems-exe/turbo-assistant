@@ -99,3 +99,7 @@ def meditation(request):
         activity.save()
 
     return render(request, "app/meditation.html")
+
+
+def relaxing_sounds(request):
+    return render(request, "app/relaxing_sounds.html")

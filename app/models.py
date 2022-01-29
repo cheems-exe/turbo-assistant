@@ -29,6 +29,9 @@ class Activity(models.Model):
         meditation
         cooking
 
+        p-start 
+        p-end -> p-end to find cycles 
+        p-fail -> no count 
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity_name = models.CharField(max_length=100)
@@ -39,3 +42,5 @@ class WorkEfficiency(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     pomodoro_cycles = models.IntegerField(default=0)
     date = models.DateTimeField(default=datetime.datetime.now)
+
+# class Time_keeper(models.Model)

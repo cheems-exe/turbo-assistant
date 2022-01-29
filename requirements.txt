@@ -31,3 +31,5 @@ typing-extensions==3.10.0.2
 vine==5.0.0
 wcwidth==0.2.5
 zipp==3.5.0
+omegaconf
+torchaudio

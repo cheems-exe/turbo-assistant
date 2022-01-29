@@ -6,7 +6,7 @@ from . import views
 from .utils_text_summarizing import speech_to_text
 from .views import *
 from .views_to_dos import *
-
+from .view_pomodoro import *
 urlpatterns = [
     path("", views.home, name="home"),
     path('todo/', list_todos, name="todo"),
@@ -17,4 +17,7 @@ urlpatterns = [
     path('journal/', views.journal, name='journal'),
     path('summarize_text/', speech_to_text, name="summarize_text"),
     path('meditation/', views.meditation, name="meditation"),
+    path('pomodoro/', start_pomodoro_timer, name="promodoro"),
+    path('add_done_session/', add_done_sesssion, name="add_done_sesssion"),
+    path('relaxing_sounds/', relaxing_sounds, name="relaxing_sounds"),
 ]
