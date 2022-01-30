@@ -56,4 +56,4 @@ Turbo (or Turbo) is a personal assistant to make work from home employees life b
 * Shubham Goel 
 
 ## Presentation
-- [link](https://www.canva.com/design/DAE221clAoU/ouObEEaR2A8EN63eB7Asqw/edit)
+- [cheems.exe presentation](https://drive.google.com/file/d/1DhKjsTnQQEKh4E3CpsjL4inUaXYX2uj6/view?usp=sharing)
