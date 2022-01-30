@@ -1,51 +1,81 @@
-{% extends "app/base.html" %}
+{% extends "app/base.html" %} {% block head_title %}Todo {% endblock %} {% block
+content%}
+<div class="row">
+  <div class="col-xl-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'edit_todo' {{todo.id}} %}" method="POST">
+          {% csrf_token %} Todo Title<br />
+          <p>
+            <input
+              class="form-control"
+              name="todo_title"
+              id="todo_title"
+              type="text"
+              value="{{todo.title}}"
+            />
+          </p>
+          Description<br />
+          <p>
+            <textarea
+              class="form-control"
+              name="todo_description"
+              id="todo_description"
+              cols="30"
+              rows="10"
+              value="{{todo.description}}"
+            ></textarea>
+          </p>
+          <p>
+            <input
+              class="form-control"
+              name="todo_deadline"
+              id="todo_deadline"
+              type="datetime-local"
+              placeholder="Deadline"
+              value="{{todo.deadline_time}}"
+            />
+          </p>
 
-{% block head_title %}Todo {% endblock %}
-
-
-
-{% block content%}
-  <div class="row">
-    <div class="col-xl-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-
-          <form action="{% url 'edit_todo' {{todo.id}} %}" method="POST">
-            {% csrf_token %}
-           Todo Title<br>
-            <p><input  class="form-control" name="todo_title" id="todo_title"  type="text" value="{{todo.title}}"></p>
-            Description<br>
-            <p><textarea class="form-control" name="todo_description" id="todo_description" cols="30" rows="10" value="{{todo.description}}"></textarea></p>
-            <p><input  class="form-control" name="todo_deadline" id="todo_deadline"  type="date" placeholder="Deadline" value="{{todo.deadline_time}}"></p>
-            
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Priority</label>
-              <div class="col-sm-3">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="todo_priority" id="todo_priority1" value="1" {% if todo.priority == 1 %} checked {% endif %}/> High </label>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="todo_priority" id="todo_priority2" value="2" {% if todo.priority == 1 %} checked {% endif %} /> Medium </label>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="todo_priority" id="todo_priority3" value="3"{% if todo.priority == 1 %} checked {% endif %} /> Low </label>
-                </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Priority</label>
+            <div class="col-sm-3">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input"
+                  name="todo_priority" id="todo_priority1" value="1" {% if
+                  todo.priority == 1 %} checked {% endif %}/> High
+                </label>
               </div>
             </div>
-            
+            <div class="col-sm-3">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input"
+                  name="todo_priority" id="todo_priority2" value="2" {% if
+                  todo.priority == 1 %} checked {% endif %} /> Medium
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input"
+                  name="todo_priority" id="todo_priority3" value="3"{% if
+                  todo.priority == 1 %} checked {% endif %} /> Low
+                </label>
+              </div>
+            </div>
+          </div>
 
-            <input  class="form-control btn btn-primary mr-2" type="submit" value="Submit">
+          <input
+            class="form-control btn btn-primary mr-2"
+            type="submit"
+            value="Submit"
+          />
         </form>
-
-        </div>
       </div>
     </div>
-    </div>
+  </div>
+</div>
 {% endblock content %}

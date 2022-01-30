@@ -5,6 +5,7 @@ from .views import *
 urlpatterns = [
     path("", home, name="home"),
     
+    path('dashboard/', dashboard, name="dashboard"),
     path('todo/', list_todos, name="todo"),
     path('todo/<int:pk>/', detailed_todos, name="detailed_todos"),
     path('new_todo', create_todo, name="create_todo"),
@@ -33,6 +34,7 @@ urlpatterns = [
     path('signup/', signup, name="signup"),
 
     path("food/", food, name="food"),
+    path("food_detail/<str:food_name>/", food_detail, name="food_detail"),
 
     path("break_page/", break_page, name="break_page"),
 ]

@@ -77,10 +77,24 @@ def signout(request):
 	messages.success(request,'Successfully logged out')
 	return redirect('/login/')
 
+def dashboard(request):
+    user=request.user
+    todos = Todo.objects.filter(user = request.user)[:6]
+    pomodoro = WorkEfficiency.objects.filter(user=user)
+    e_date = []
+    e_data = []
+    for i in pomodoro:
+        e_date.append(str(i.date)[:10])
+        e_data.append(i.pomodoro_cycles)
+    pomodoro_dict ={ 'date':e_date, 'data':e_data }
+    context={'todos':todos, 'pompdoro_dict':json.dumps(pomodoro_dict) }
+    return render(request, 'app/dashboard.html',context)
 
+@login_required
 def home(request):
     if request.method == "GET":
-        return render(request, 'app/home.html')
+        return redirect('/dashboard')
+        # return render(request, 'app/index.html')
     raise Http404('No such request')
 
 
@@ -144,7 +158,7 @@ def list_todos(request):
             'todos': todos
         }
         return render(request, "app/todo.html", context)
-    
+
 
 def detailed_todos(request,pk):
     cur_todo = Todo.objects.get(pk = pk)
@@ -203,7 +217,7 @@ def start_pomodoro_timer(request):
     }
     # messages.success(request, "Break complete! Back to work :)")
     return render(request, "app/pomodoro_timer.html",context)
-    
+
 
 def break_session(request):
     print("inside break_session")
@@ -226,7 +240,7 @@ def break_session(request):
     work_obj.pomodoro_cycles += 1
     work_obj.save()
 
-    # take a gap in the cycles 
+    # take a gap in the cycles
     if work_obj.pomodoro_cycles%2 == 0:
         return redirect("/break_page")
     return render(request, "app/pomodoro_timer.html",context)
@@ -267,7 +281,7 @@ def speech_to_text(request):
         print("Hellooooo", os.path.join(os.getcwd(), f"media\\{file_name}"))
 
         file_path = os.path.join(os.getcwd(), f"media\\{file_name}")
-        test_file = glob(file_path) 
+        test_file = glob(file_path)
         print('HERE', test_file)
 
         batches = split_into_batches(test_file, batch_size=10)
@@ -300,7 +314,7 @@ def charts(request):
         j_date.append(str(i.date))
         j_data.append(i.day_rating)
 
-     
+
     for i in activity:
         a_date.append(str(i.date))
         # a_data.append(i.date)
@@ -479,7 +493,7 @@ def music(request):
         ],
     }
     context = {
-        
+
          'test': zip([
             cat[random.randint(0,len(cat)-1)] for cat in  all_categories_songs.values()
         ], all_categories),
@@ -489,7 +503,7 @@ def music(request):
 
 def food(request):
     x = ['Aloo Paratha', 'Appam', 'Bacon', 'Barfi', 'Bengan Bharta', 'Besan Ladoo', 'Bhel', 'Bhindi Masala', 'Bisi Bele Bath', 'Blueberry Pie', 'Brownie', 'Burritos', 'Butter Naan', 'Caramel Pudding', 'Chai', 'Chapati', 'Cheese Corn Balls', 'Chicken Hot Dog', 'Chicken Mexican Tacos', 'Chicken Noodles', 'Chicken Wings', 'Chimichanga', 'Chocolate Cupcake', 'Chocolate Fudge', 'Chole Bhature', 'Club Sandwich', 'Dal Bati', 'Dal Makhani', 'Dhokla', 'Donut', 'Egg Sandwich', 'Enchiladas', 'Falafel', 'Falooda', 'Fish Curry', 'Frankie', 'French Fries', 'Gajar Halwa', 'Garlic Bread', 'Gatte Ki Sabji', 'Ghevar', 'Gulab Jamun', 'Hara Bhara Kabab', 'Idli', 'Jain Biryani', 'Jain Fried Rice', 'Jain Hakka Noodles', 'Jain Pav Bhaji', 'Jalebi', 'Kadai Paneer', 'Kaju Katli', 'Kathi Roll', 'Kheer', 'Khichdi', 'Kulcha', 'Lasagna', 'Malai Kulfi', 'Malpua', 'Mango Pickle', 'Masala Dosa', 'Misal Pav', 'Momos', 'Mysore Pak', 'Nachos', 'Non Veg Biryani', 'Non Veg Burger', 'Non Veg Fried Rice', 'Non Veg Pizza', 'Omelet', 'Onion Rings', 'Pancakes', 'Paneer Wrap', 'Pani Puri', 'Pita Bread', 'Poha', 'Popcorn', 'Pumpkin Muffins', 'Puran Poli', 'Rabdi', 'Raita', 'Rajma', 'Rasgulla', 'Salsa Sauce', 'Samosa', 'Sarson Ka Saag', 'Sev Puri', 'Spaghetti', 'Steak', 'Strawberry Cake', 'Stuffed Potato', 'Sushi', 'Undhiyu', 'Upma', 'Vada Pav', 'Veg Biryani', 'Veg Burger', 'Veg Fried Rice', 'Veg Grilled Sandwich', 'Veg Hakka Noodles', 'Veg Hot Dog', 'Veg Kabab', 'Veg Pav Bhaji', 'Veg Pizza', 'Veg Pulav', 'Veg Spring Rolls', 'Vegetable Pakora', 'Vegetable Soup', 'Waffles', 'White Sauce Pasta']
-        
+
     if request.method == "GET":
         # return render(request,"app/food.html",context)
         food_dataset = [i for i in food_data.values()]
@@ -497,8 +511,7 @@ def food(request):
         for _ in range(10):
             item = random.choice(food_dataset)
             selected.append(item)
-    
-        print(selected)
+
         return render(request,"app/food.html", {"r_food": selected, "food_list": x})
 
     elif request.method == "POST":
@@ -517,22 +530,22 @@ def food(request):
 
         feat[1] = spice
         feat[0] = pref
-        print(len(feat))
 
         rec = list()
         dist, ind = model.kneighbors([feat], n_neighbors=11)
         for i in ind[0][1:]:
             rec.append(x[i])
-        print(rec)
 
         res = []
         for name in rec:
             res.append(food_data[name])
 
-        print(res)
+        return render(request,"app/food.html", {"r_food": res, "food_list": x})
 
     else:
         raise Http404('No such request')
 
+def food_detail(request,food_name):
+    data = food_data[food_name]
 
-# dict_keys(['ingredients_recipe', 'nv_for', 'nv_ingredients', 'spice_level', 'nv_calories', 'nv_carbohydrates', 'r_total_time', 'r_cook_time', 'nv_fat', 'image_name', 'r_prep_time', 'likes', 'v_link', 'search_count', 'nv_protein', 'nv_additional', 'r_servings', 'nv_cholesterol', 'r_steps', 'nv_sodium', 'category', 'name'])
+    return render(request,'app/food_detail.html', {"food": data})

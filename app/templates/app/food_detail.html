@@ -1,0 +1,44 @@
+{% extends "app/base.html" %} {% block head_title %}Food-Detail{% endblock %} 
+{%block content%}
+<h1>{{food.name}}</h1>
+
+<p>
+  Fat : {{food.nv_fat}}
+  
+</p>
+  <p>
+      Cholesterol: {{food.nv_cholesterol}}
+  </p>
+  <p>
+    Calories: {{food.nv_calories}}
+</p>
+  </p>
+  <p>
+    Protein: {{food.nv_protein}}
+</p>
+  </p>
+  <p>
+    Carbohydrates: {{food.nv_carbohydrates}}
+</p>
+
+
+<h4>Ingredients</h4>
+<p>
+    <ul>
+      {% for i in food.ingredients_recipe %}
+      <li>{{i}}</li>
+      {% endfor %}
+    </ul>
+
+</p>
+<h4>Steps</h4>
+<p>
+    <ul>
+      {% for i in food.r_steps %}
+      <li>{{i}}</li>
+      {% endfor %}
+    </ul>
+
+</p>
+
+{% endblock %}
